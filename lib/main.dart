@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'advance/bottom_appbar_demo.dart';
+import 'advance/frosted_glass_demo.dart';
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget{
+
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return MaterialApp(
-      title: 'flutter demo',
+      title: '测试下',
       theme: ThemeData(
-        primarySwatch: Colors.lightGreen,
+        primaryColor: Colors.lightGreen
       ),
-      home: BottomAppBarDemo(),
+      home: frostedGlassDemo()
     );
   }
 }

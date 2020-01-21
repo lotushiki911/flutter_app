@@ -25,11 +25,15 @@ class _BottomAppBarDemoState extends State<BottomAppBarDemo> {
       floatingActionButton: FloatingActionButton(
         //响应事件
         onPressed: (){
-          Navigator.of(context).push(
-            MaterialPageRoute(builder:(BuildContext context){
-              return EachView('新得页面');
-            })
-          );
+//          Navigator.of(context).push(
+//            MaterialPageRoute(builder:(BuildContext context){
+//              return EachView('新页面');
+//            })
+//          );
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) => EachView('呵呵哒页面')
+          ));
+
         },
         //长按的时候显示提示
         tooltip: '来点一点，呵呵哒',
