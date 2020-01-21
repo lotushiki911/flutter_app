@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'advance/pages/keep_alive_page.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -8,7 +8,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: '测试123',
       theme: ThemeData(
-          primarySwatch: Colors.lightGreen
+        primarySwatch: Colors.lightGreen
       ),
       home: KeepAliveDemo(),
     );
@@ -61,9 +61,15 @@ class _KeepAliveDemoState extends State<KeepAliveDemo>
       body: TabBarView(
         controller: _controller,
         children: <Widget>[
-          MyAliveHomePage(),
-          MyAliveHomePage(),
-          MyAliveHomePage(),
+          Center(
+            child: Text('修理',style: TextStyle(fontSize: 40.0),),
+          ),
+          Center(
+            child: Text('闹钟',style: TextStyle(fontSize: 40.0),),
+          ),
+          Center(
+            child: Text('沙滩',style: TextStyle(fontSize: 40.0),),
+          )
         ],
       ),
     );

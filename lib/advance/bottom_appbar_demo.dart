@@ -43,6 +43,7 @@ class _BottomAppBarDemoState extends State<BottomAppBarDemo> {
         ),
 
       ),
+      //居中
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       //bottomappbar要比navidatebar要灵活
       bottomNavigationBar: BottomAppBar(
