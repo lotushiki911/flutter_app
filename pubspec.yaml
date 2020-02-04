@@ -16,6 +16,7 @@ version: 1.0.0+1
 environment:
   sdk: ">=2.1.0 <3.0.0"
 
+# 一般用在生产环境中的 库 插件等
 dependencies:
   flutter:
     sdk: flutter
@@ -23,7 +24,12 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
+  # 添加自己增加的库或者插件 必须按照格式 xx: 加入一个空格
+  # Dart的功能强大的Http客户端，它支持拦截器，全局配置，FormData，请求取消，文件下载，超时等。
+  dio: ^3.0.8
+  http: any
 
+# 一般用在测试开发环境中的  库 插件等 上线时不会被打包
 dev_dependencies:
   flutter_test:
     sdk: flutter
