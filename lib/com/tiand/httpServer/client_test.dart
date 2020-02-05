@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
-
+import '../config/httpHeaders.dart';
 /**
  * Author: Jonny Zheng 270406@qq.com
  *
@@ -33,7 +33,7 @@ void getHttp(String text) async {
     //参数
     var data ={'name': text};
     var url ='https://www.easy-mock.com/project/5e3974fdf35d4261222b3145/example/query';
-    var url1 ='https://www.easy-mock.com/mock/5e3974fdf35d4261222b3145/tiand/query?name=aa';
+    var url1 ='http://47.103.208.185:8088/hi';
     response = await Dio().get(url1,
         //queryParameters: data
     );
@@ -43,6 +43,21 @@ void getHttp(String text) async {
     print(e);
   }
 }
+
+
+//使用请求头访问https
+Future getHttp1() async{
+  Response response ;
+  Dio dio = Dio();
+  dio.options.headers = httpHeaders;
+  var url = 'http://47.103.208.185:8088/hi';
+  //获取网站的返回数据data数据
+  var url1= 'https://time.geekbang.org/serv/v1/column/newAll';
+  response = await dio.get(url1);
+  print(response.data);
+  return response.data;
+}
+
 
 void main(){
   connectserver();
