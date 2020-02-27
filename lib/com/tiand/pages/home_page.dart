@@ -1,95 +1,76 @@
-import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-
+import 'package:flutter/material.dart';
+import '../service/service_method.dart';
+import '../tools/ToolDart.dart';
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  //建立一个文本控制器
-  TextEditingController typeController = TextEditingController();
 
-  String showText = '欢迎你~';
+  TextEditingController textController = TextEditingController();
+  String showText = '欢迎你';
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
-          appBar: AppBar(
-            title: Text('主页'),
-          ),
-          //显示过长越界问题 使用一个滚动组件解决
-          body: SingleChildScrollView(
-            child: Container(
-              //列布局
-              child: Column(
-                children: <Widget>[
-                  //文本框小部件
-                  TextField(
-                    //控制器
-                    controller: typeController,
-                    //修饰器 输入框
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(10.0),
-                      labelText: '产品选择', //提示下
-                      helperText: '请输入', //下方提示
-                    ),
-                    //自动对焦 关闭
-                    autofocus: false,
+        appBar: AppBar(title: Text('买买买'),),
+        //不要跟listview一起用
+//        body: SingleChildScrollView(
+//          child: Text(homePageContent),
+//        ),
+          body: Container(
+            //列式布局
+            child: Column(
+              children: <Widget>[
+                TextField(
+                  controller: textController,
+                  //聚焦
+                  autofocus: false,
+                  //修饰器
+                  decoration: InputDecoration(
+                    //边距
+                    contentPadding: EdgeInsets.all(10.0),
+                    labelText: '查询',
+                    helperText: '请输入查询',
                   ),
-                  RaisedButton(
+                ),
+                RaisedButton(
                     onPressed: _choiceAction,
                     child: Text('选择完毕'),
-                  ),
-                  Text(
-                    showText,
-                    overflow: TextOverflow.ellipsis, //过长显示省略号
-                    maxLines: 1, //最长显示1行
-                  )
-                ],
-              ),
+                ),
+                Text(
+                  showText,
+                  //显示省略号
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                )
+              ],
             ),
-          )),
+          ),
+      ),
     );
   }
 
-  void _choiceAction() {
-    print('开始选择----');
-    if (typeController.text.toString().isEmpty ||
-        typeController.text.toString() == '') {
+  //定义点击事件
+  void _choiceAction(){
+    print('开始选择----->');
+    if(textController.text.toString() == ''){
+      //如果为空的话显示提示
       showDialog(
           context: context,
-          builder: (context) => AlertDialog(
-                title: Text('类型不能为空'),
-              ));
-    } else {
-      print(typeController.text);
-      //暂时注释掉 接口调不通
-      getHttp(typeController.text.toString())
-        .then((val){ //val是gethttp返回的数据
-          print(val);
-          setState(() {
-//            showText = val['data']['name'].toString();
-            showText = val;
-          });
-      });
-//      setState(() {
-//        showText = typeController.text;
-//      });
-    }
-  }
+          builder: (context) => AlertDialog(title: Text('输入内容不能为空'),)
+      );
+    }else{
+      var data = {'name': textController.text.toString()};
+      getHomePageContent('homePageInfoByName',data).then((val){
+        setState(() {
+          print('返回的数据为${val}');
+           showText = val;
+        });
 
-  Future getHttp(String text) async {
-    try {
-      Response response;
-      //参数
-      var data = {'name': text};
-      var url = 'http://47.103.208.185:8088/hi';
-      response = await Dio().get(url, queryParameters: data);
-      print(response.data);
-      return response.data;
-    } catch (e) {
-      print(e);
+      });
     }
   }
 }
