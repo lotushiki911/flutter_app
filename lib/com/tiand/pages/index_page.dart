@@ -1,10 +1,6 @@
 import 'package:flutter/cupertino.dart'; //ios 风格
 import 'package:flutter/material.dart';  //google 风格
-//引入底部导航栏的分类页面
-import 'home_page.dart';
-import 'member_page.dart';
-import 'cart_page.dart';
-import 'category_page.dart';
+import './pageRely/page_list.dart';
 
 class IndexPage extends StatefulWidget {
   @override
@@ -12,64 +8,47 @@ class IndexPage extends StatefulWidget {
 }
 
 class _IndexPageState extends State<IndexPage> {
-  //底部导航栏保存列表  每一个子项包含一个图标和文字
-  final List<BottomNavigationBarItem> bottomTabs = [
-    BottomNavigationBarItem(
-      icon: Icon(CupertinoIcons.home,
-        //color: Colors.lightGreen,
-      ),
-      title: Text('首页')
-    ),
-    BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.search),
-        title: Text('分类')
-    ),
-    BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.shopping_cart),
-        title: Text('购物车')
-    ),
-    BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.profile_circled),
-        title: Text('我的')
-    )
-  ];
-
-  final List tabBodies = [
-    HomePage(),
-    CategoryPage(),
-    CartPage(),
-    MemberPage()
-  ];
-
+  //首页底部导航栏列表
+  final List<BottomNavigationBarItem> bottomTabs = bottomTabList;
+  // 底部导航栏对应页面列表
+  final List tabBodies = tabBodyList;
+  // 当前主页面编码
   int currentIndex = 0;
+  //当前主页面
   var currentPage;
 
   @override
   void initState() {
     currentPage = tabBodies[currentIndex];
     super.initState();
-
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromRGBO(244, 245, 245, 1.0),
-      //脚手架自带底部导航
+      //展现的哪个页面
+      body: currentPage,
+      //底部导航设置
       bottomNavigationBar: BottomNavigationBar(
-        //backgroundColor: Colors.grey,
+        //底部导航栏主背景色设置
+        backgroundColor: Color.fromARGB(255, 245, 245, 1),
+        //底部导航栏风格设置
         type: BottomNavigationBarType.fixed,
+        //设置当前选中的底部导航栏的编码
         currentIndex: currentIndex,
+        //底部导航栏主体
         items: bottomTabs,
         //点击事件
         onTap: (index){
           setState(() {
-            currentIndex = index; //点击后选中那个就更新我们的页面
+            //点击后选中那个就更新我们的页面
+            currentIndex = index;
+            //更新选中的页面
             currentPage = tabBodies[currentIndex];
           });
         },
       ),
-      //展现的哪个页面
-      body: currentPage,
     );
   }
 }
