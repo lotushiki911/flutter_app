@@ -23,10 +23,13 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
   TextEditingController textController = TextEditingController();
   String showText = '欢迎你';
 
+  int page = 0;
+  List<Map> hotGoodList =[];
   @override
   void initState() {
     // TODO: implement initState
     print('初始化homepage页面并获取了数据!');
+    _getHotGoods();
     super.initState();
   }
 
@@ -139,7 +142,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
             //楼层组合
             FloorContent(floorTitle[0]['url'].toString(),floorContent),
             //火爆专区
-            HotGoods(),
+//            HotGoods(),
+            _hotGoods(),
           ],
         )
       );
@@ -148,6 +152,96 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
         //加载图标
         child: CircularProgressIndicator(),
       );
+    }
+  }
+  // 组合火爆专区
+  Widget _hotGoods(){
+    return Container(
+      child: Column(
+        children: <Widget>[
+          hotTitle,
+          _wrapList(),
+        ],
+      ),
+    );
+  }
+
+  //获取流式布局数据
+  void _getHotGoods(){
+    String url = servicePath['homePageHuobao'];
+    var formData = {'pagin': page};
+    getHomePageImg(url,formData:formData).then((val){
+      print(val);
+      var data = json.decode(val.toString());
+      hotGoodList = (data['huobao_content'] as List).cast();
+    });
+
+  }
+  //流式布局设置火爆专区 标题
+  Widget hotTitle = Container(
+    margin: EdgeInsets.only(top: 10),
+    alignment: Alignment.center,
+    padding: EdgeInsets.all(5.0),
+    color: Colors.transparent,
+    child: Text(
+      '什么值得买',
+      style: TextStyle(
+        color: Colors.redAccent,
+        fontSize: ScreenUtil().setSp(30),
+      ),
+    ),
+  );
+
+  //构建流式布局体
+  Widget _wrapList(){
+    if(hotGoodList.length != 0 ){
+      //将List<Map> 转变为流式布局需要的List<Widget>
+      List<Widget> widgetList = hotGoodList.map((val){
+        return InkWell(
+          onTap: (){},
+          //每个container包含 一个图片 一个名称  一个价格
+          child: Container(
+            width: ScreenUtil().setWidth(375),
+            color: Colors.white12,
+            padding: EdgeInsets.all(3.0),
+            margin: EdgeInsets.only(bottom: 3.0),
+            child: Column(
+              children: <Widget>[
+                //图片
+                getNetWorkImage(val['static_url']),
+                //名称
+                Text(
+                  val['name'],
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(color: Colors.pink,fontSize: ScreenUtil().setSp(20)),
+                ),
+                //价格
+                Row(
+                  children: <Widget>[
+                    Text(val['price'],style: TextStyle(color: Colors.red),),
+                    Text(
+                      '2000',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        decoration: TextDecoration.lineThrough
+                    ),)
+                  ],
+                )
+              ],
+            ),
+          ),
+        );
+      }).toList();
+      //返回一个流式布局组件
+      return Wrap(
+        //每行2个元素
+        spacing: 2,
+        //待传入的List<Widget>
+        children: widgetList,
+      );
+    }else{
+      return Text('没有更多了...');
     }
   }
 
@@ -501,29 +595,29 @@ class FloorContent extends StatelessWidget {
 
 }
 
-class HotGoods extends StatefulWidget {
-  @override
-  _HotGoodsState createState() => _HotGoodsState();
-}
-
-class _HotGoodsState extends State<HotGoods> {
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    String url = servicePath['homePageHuobao'];
-    var formData = {'pagin': '1'};
-    getHomePageImg(url,formData:formData).then((val){
-      print(val);
-    });
-    super.initState();
-  }
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Text('lalalalal'),
-    );
-  }
-}
+//class HotGoods extends StatefulWidget {
+//  @override
+//  _HotGoodsState createState() => _HotGoodsState();
+//}
+//
+//class _HotGoodsState extends State<HotGoods> {
+//
+//  @override
+//  void initState() {
+//    // TODO: implement initState
+//    String url = servicePath['homePageHuobao'];
+//    var formData = {'pagin': '1'};
+//    getHomePageImg(url,formData:formData).then((val){
+//      print(val);
+//    });
+//    super.initState();
+//  }
+//  @override
+//  Widget build(BuildContext context) {
+//    return Container(
+//      child: Text('lalalalal'),
+//    );
+//  }
+//}
 
 
