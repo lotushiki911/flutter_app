@@ -39,21 +39,33 @@ class _CategoryPageState extends State<CategoryPage> {
         print('---onValue:');
         print(onValue);
 //        _categoryText = onValue;
-        _categoryText = onValue['data'].toString();
+        _categoryText = onValue.toString();
       });
     });
   }
-  //使用请求头访问https
+//  //使用请求头访问https
+//  Future getHttp() async{
+//    Response response ;
+//    Dio dio = Dio();
+//    dio.options.headers = httpHeaders;
+//    var url = 'http://47.103.208.185:8088/hi';
+//    //获取网站的返回数据data数据
+//    var url1= 'https://time.geekbang.org/serv/v1/column/newAll';
+//    response = await dio.get(url1);
+//    print(response.data);
+//    return response.data;
+//  }
+
   Future getHttp() async{
     Response response ;
     Dio dio = Dio();
-    dio.options.headers = httpHeaders;
-    var url = 'http://47.103.208.185:8088/hi';
+    //dio.options.headers = httpHeaders;
+    var url = 'http://10.0.2.2:5000/news/test/hehe';
     //获取网站的返回数据data数据
-    var url1= 'https://time.geekbang.org/serv/v1/column/newAll';
-    response = await dio.get(url1);
-    print(response.data);
-    return response.data;
+//    var url1= 'https://time.geekbang.org/serv/v1/column/newAll';
+    response = await dio.get(url);
+    print(response);
+    return response;
   }
 }
 

@@ -15,33 +15,33 @@ void connectserver() {
 
 //使用异步请求 请求http
 void getHttp(String text) async {
-//  try {
-//    //远程请求 响应
-//    Response response;
-//    String path = "http://127.0.0.1:5000/hi";
-////      Uri uri = Uri(host: "127.0.0.1",port: 5000,path: "hi");
-//    Uri uri = Uri(scheme: "http", host: "127.0.0.1",port: 5000,path: "/hi");
-//    //必须使用异步的方法才能使用await
-//    response = await Dio().get(path);
-//    //response = await Dio().getUri(uri);
-//    return print(response);
-//  } catch (e) {
-//    return print(e);
-//  }
-  try{
+  try {
+    //远程请求 响应
     Response response;
-    //参数
-    var data ={'name': text};
-    var url ='https://www.easy-mock.com/project/5e3974fdf35d4261222b3145/example/query';
-    var url1 ='http://47.103.208.185:8088/hi';
-    response = await Dio().get(url1,
-        //queryParameters: data
-    );
-    print(response.data);
-    return response.data;
-  }catch(e){
-    print(e);
+    String path = "http://127.0.0.1:5000/news/test/hehe";
+//      Uri uri = Uri(host: "127.0.0.1",port: 5000,path: "hi");
+//    Uri uri = Uri(scheme: "http", host: "127.0.0.1",port: 5000,path: "/hi");
+    //必须使用异步的方法才能使用await
+    response = await Dio().get(path);
+    //response = await Dio().getUri(uri);
+    return print(response);
+  } catch (e) {
+    return print(e);
   }
+//  try{
+//    Response response;
+//    //参数
+//    var data ={'name': text};
+//    var url ='https://www.easy-mock.com/project/5e3974fdf35d4261222b3145/example/query';
+//    var url1 ='http://47.103.208.185:8088/hi';
+//    response = await Dio().get(url1,
+//        //queryParameters: data
+//    );
+//    print(response.data);
+//    return response.data;
+//  }catch(e){
+//    print(e);
+//  }
 }
 
 
@@ -60,5 +60,7 @@ Future getHttp1() async{
 
 
 void main(){
-  connectserver();
+  //connectserver();
+  var list = [{"name": "test0"}, {"name": "test1"}, {"name": "test2"}, {"name": "test3"}, {"name": "test4"}, {"name": "test6"}, {"name": "test7"}, {"name": "test8"}, {"name": "test9"}];
+  print(list[0]['name']);
 }

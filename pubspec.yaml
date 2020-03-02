@@ -28,6 +28,13 @@ dependencies:
   # Dart的功能强大的Http客户端，它支持拦截器，全局配置，FormData，请求取消，文件下载，超时等。
   dio: ^3.0.8
   http: any
+  # 轮播效果组件
+  flutter_swiper: ^1.1.6
+  # 页面适配调试组件
+  flutter_screenutil: ^1.0.2
+  # 插件-调用系统功能(拨号,短信,邮件,http)
+  url_launcher: ^5.4.2
+
 
 # 一般用在测试开发环境中的  库 插件等 上线时不会被打包
 dev_dependencies:
