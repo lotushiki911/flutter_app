@@ -25,11 +25,19 @@ class _CategoryPageState extends State<CategoryPage> {
       child: Scaffold(
           appBar: AppBar(title: Text('分类'),),
           body: Container(
+              //分为左右两块 所有用row
               child: Row(
                 children: <Widget>[
                   LeftCategoryNav(),
+                  //右侧分为上下结构 上面是一排导航 下面是内容呈现
+                  Column(
+                    children: <Widget>[
+                      RightCategoryNav(),
+                    ],
+                  ),
                 ],
-              )
+              ),
+
           )
       ),
     );
@@ -121,3 +129,55 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
 }
 
 
+//右侧分类导航 --顶部
+class RightCategoryNav extends StatefulWidget {
+  @override
+  _RightCategoryNavState createState() => _RightCategoryNavState();
+}
+
+class _RightCategoryNavState extends State<RightCategoryNav> {
+  List list = ['全部','美食','宝宝','旅游','玩具','气球','火车','飞机','外星人'];
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      //右侧的模块
+      height: ScreenUtil().setHeight(80),
+      width: ScreenUtil().setWidth(608),
+      //加个底框
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border(
+          bottom: BorderSide(
+            width: 1,color: Colors.black12
+          )
+        )
+      ),
+      //改为横向布局
+      child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: list.length,
+          itemBuilder: (context,index){
+            return _rightInkWell(list[index]);
+          }
+      ),
+    );
+  }
+  //右侧的小组件 构建
+  Widget _rightInkWell(String item){
+    return InkWell(
+      onTap: (){},
+      child: Container(
+        padding: EdgeInsets.all(10),
+        child: Text(
+            item,
+          style: TextStyle(
+            fontSize: ScreenUtil().setSp(24),
+            color: Colors.black,
+          ),
+
+        ),
+      ),
+    );
+
+}
+}
