@@ -34,7 +34,10 @@ dependencies:
   flutter_screenutil: ^1.0.2
   # 插件-调用系统功能(拨号,短信,邮件,http)
   url_launcher: ^5.4.2
+  # 上拉下滑插件
   flutter_easyrefresh: ^1.2.7
+  # 状态管理
+  provide: ^1.0.2
 
 
 # 一般用在测试开发环境中的  库 插件等 上线时不会被打包
