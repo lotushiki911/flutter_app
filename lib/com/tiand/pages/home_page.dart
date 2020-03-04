@@ -4,10 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/com/tiand/config/service_url.dart';
 import 'package:flutter_app/com/tiand/pages/pageRely/page_list.dart';
+import 'package:flutter_easyrefresh/material_footer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import '../service/service_method.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -25,135 +27,141 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
 
   int page = 0;
   List<Map> hotGoodList =[];
+  GlobalKey<RefreshFooterState> _footerkey = new GlobalKey<RefreshFooterState>();
+
   @override
   void initState() {
     // TODO: implement initState
     print('初始化homepage页面并获取了数据!');
-    _getHotGoods();
+//    _getHotGoods();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     String url = servicePath['homePageJumu'];
-    return Container(
-      child: Scaffold(
-        appBar: AppBar(title: Text(showText),),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            setState(() {
-              showText = showText + '.';
-            });
-          },
-          child: Icon(Icons.title),
-        ),
+      return Scaffold(
+        appBar: AppBar(title:Text('买买买')),
         body: FutureBuilder(
-
           ///snapshot就是_calculation在时间轴上执行过程的状态快照
-          builder: _buildFuture,
+          builder: (context,snapshot){
+            if (snapshot.hasData) {
+              var data = json.decode(snapshot.data.toString());
+              //将map 解析成list
+              List<Map> list = (data as List).cast();
+              List<Map> swiper = [];
+              List<Map> navi = [];
+              List<Map> adpics =[];
+              List<Map> callpics =[];
+              List<Map> recommends = [];
+              List<Map> floorTitle = [];
+              List<Map> floorContent = [];
+              list.forEach((element){//遍历每个元素  此时不可add或remove  否则报错 但可以修改元素值，
+                Map ele = {"name":element['static_name'].toString(),"url":element['static_url'].toString()};
+                if(element['static_type'] == '1'){
+                  swiper.add(ele);
+                }else if(element['static_type'] == '2'){
+                  if(navi.length == 8) {
+
+                  }else {
+                    navi.add(ele);
+                  }
+                }else if(element['static_type'] == '3'){
+                  adpics.add(ele);
+                }else if(element['static_type'] == '4'){
+                  callpics.add(ele);
+                }else if(element['static_type'] == '5'){
+                  ele['new_price'] = element['new_price'];
+                  ele['old_price'] = element['old_price'];
+                  recommends.add(ele);
+                }else if(element['static_type'] == '6') {
+                  floorTitle.add(ele);
+                }else if(element['static_type'] == '7') {
+                  floorContent.add(ele);
+                }
+              });
+//              print('swiper=${swiper.toString()}');
+//              print('navi=${navi.toString()}');
+//              print('adpics=${adpics.toString()}');
+//              print('callpics=${callpics.toString()}');
+//              print('recommends=${recommends.toString()}');
+              //下面防止溢出
+//      return SingleChildScrollView(
+//        //列式布局
+//        child: Column(
+              //使用上拉下载插件需要使用ListView
+              return EasyRefresh(
+//                refreshFooter: MaterialFooter(
+//                  key: _footerkey,
+//                  backgroundColor: Colors.white,
+//                ),
+                //自定义刷新footer
+                refreshFooter: ClassicsFooter(
+                  key: _footerkey,
+                  bgColor: Colors.white,
+                  textColor: Colors.pink,
+                  //加载时候的颜色
+                  moreInfoColor: Colors.pink,
+                  //是否加载更多
+                  showMore: true,
+                  noMoreText: '',
+                  moreInfo: '没有更多了',
+                  loadedText: '呵呵呵',
+                  loadingText: '加载完成',
+                  //准备文字
+                  loadReadyText: '准备加载...',
+                  loadText: '加载...',
+                ),
+                child: ListView(
+                  children: <Widget>[
+                    // 首页轮播
+                    SwiperDiy(swiperDataList: swiper,),
+                    // 类别导航图标
+                    MidNavigator(navigatorList: navi),
+                    //可以继续往下加内容比如 广告位
+                    AdBar(adPic:adpics[0]['url'].toString()),
+                    //外拨电话模块
+//                  LeaderPhone(callpics[0]['url'].toString(), leaderNum),
+                    //秒杀模块  横式3个小模块 每个模块纵式布局
+                    Recommend(recommendList:recommends),
+                    //楼层组合
+                    FloorContent(picAddress:floorTitle[0]['url'].toString(),floorContents:floorContent),
+                    //火爆专区
+                    _hotGoods(),
+                  ],
+                ),
+                //加载
+                loadMore: () async{
+                  print('获取火爆专区');
+                  var formData = {'pagin': page};
+                  getHomePageImg(servicePath['homePageHuobao'],formData:formData)
+                      .then((val) {
+                    var data = json.decode(val.toString());
+                    List<Map> newHotGoodList = (data['huobao_content'] as List)
+                        .cast();
+                    if (newHotGoodList.length > 0) {
+                      setState(() {
+                        hotGoodList.addAll(newHotGoodList);
+                        page++;
+                      });
+                    }});
+                },
+                //刷新
+                onRefresh: () async{
+                  print('刷新111');
+                },
+              );
+            } else {
+              return  Text('没有数据了');
+            }
+          },
           //接收一个异步请求方法
           future: getHomePageImg(url), // 用户定义的需要异步执行的代码，类型为Future<String>或者null的变量或函数
-        ),
+//        ),
       )
     );
   }
 
-  ///snapshot就是_calculation在时间轴上执行过程的状态快照
-  Widget _buildFuture(BuildContext context, AsyncSnapshot snapshot) {
-    ///异步请求未执行完 显示等待 执行完了 返回执行结果中的数据 不需要使用set_state
-    switch (snapshot.connectionState) {
-      case ConnectionState.none:
-        print('还没有开始网络请求');
-        return Text('还没有开始网络请求');
-      case ConnectionState.active:
-        print('active');
-        return Text('ConnectionState.active');
-      case ConnectionState.waiting:
-        print('waiting');
-        return Center(
-          child: CircularProgressIndicator(),
-        );
-      case ConnectionState.done:
-        print('done');
-        if (snapshot.hasError) return Text('Error: ${snapshot.error}');
-        return _createListView(context, snapshot);
-      default:
-        return null;
-    }
-  }
-
-  //远程访问 异步请求 再渲染 不用使用动态改变set_state
-  Widget _createListView(BuildContext context, AsyncSnapshot snapshot) {
-    if (snapshot.hasData) {
-      var data = json.decode(snapshot.data.toString());
-      //将map 解析成list
-      List<Map> list = (data as List).cast();
-      List<Map> swiper = [];
-      List<Map> navi = [];
-      List<Map> adpics =[];
-      List<Map> callpics =[];
-      List<Map> recommends = [];
-      List<Map> floorTitle = [];
-      List<Map> floorContent = [];
-      list.forEach((element){//遍历每个元素  此时不可add或remove  否则报错 但可以修改元素值，
-        Map ele = {"name":element['static_name'].toString(),"url":element['static_url'].toString()};
-        if(element['static_type'] == '1'){
-          swiper.add(ele);
-        }else if(element['static_type'] == '2'){
-          if(navi.length == 8) {
-
-          }else {
-            navi.add(ele);
-          }
-        }else if(element['static_type'] == '3'){
-          adpics.add(ele);
-        }else if(element['static_type'] == '4'){
-          callpics.add(ele);
-        }else if(element['static_type'] == '5'){
-          ele['new_price'] = element['new_price'];
-          ele['old_price'] = element['old_price'];
-          recommends.add(ele);
-        }else if(element['static_type'] == '6') {
-          floorTitle.add(ele);
-        }else if(element['static_type'] == '7') {
-          floorContent.add(ele);
-        }
-      });
-      print('swiper=${swiper.toString()}');
-      print('navi=${navi.toString()}');
-      print('adpics=${adpics.toString()}');
-      print('callpics=${callpics.toString()}');
-      print('recommends=${recommends.toString()}');
-      //下面防止溢出
-      return SingleChildScrollView(
-        //列式布局
-        child: Column(
-          children: <Widget>[
-            // 首页轮播
-            SwiperDiy(swiperDataList: swiper,),
-            // 类别导航图标
-            MidNavigator(navigatorList: navi),
-            //可以继续往下加内容比如 广告位
-            AdBar(adPic:adpics[0]['url'].toString()),
-            //外拨电话模块
-//            LeaderPhone(callpics[0]['url'].toString(), leaderNum),
-            //秒杀模块  横式3个小模块 每个模块纵式布局
-            Recommend(recommends),
-            //楼层组合
-            FloorContent(floorTitle[0]['url'].toString(),floorContent),
-            //火爆专区
-//            HotGoods(),
-            _hotGoods(),
-          ],
-        )
-      );
-    } else {
-      return Center(
-        //加载图标
-        child: CircularProgressIndicator(),
-      );
-    }
-  }
   // 组合火爆专区
   Widget _hotGoods(){
     return Container(
@@ -166,17 +174,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
     );
   }
 
-  //获取流式布局数据
-  void _getHotGoods(){
-    String url = servicePath['homePageHuobao'];
-    var formData = {'pagin': page};
-    getHomePageImg(url,formData:formData).then((val){
-      print(val);
-      var data = json.decode(val.toString());
-      hotGoodList = (data['huobao_content'] as List).cast();
-    });
-
-  }
   //流式布局设置火爆专区 标题
   Widget hotTitle = Container(
     margin: EdgeInsets.only(top: 10),
@@ -251,14 +248,14 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
 /// 首页轮播组件
 class SwiperDiy extends StatelessWidget {
   final List swiperDataList ;
-  SwiperDiy({this.swiperDataList});
+  SwiperDiy({Key key,this.swiperDataList}):super(key:key);
 
   @override
   Widget build(BuildContext context) {
 
-    print("获取设备像素密度值${ScreenUtil.pixelRatio}");
-    print("获取设备高度值${ScreenUtil.screenHeight}");
-    print("获取设备宽度值${ScreenUtil.screenWidth}");
+//    print("获取设备像素密度值${ScreenUtil.pixelRatio}");
+//    print("获取设备高度值${ScreenUtil.screenHeight}");
+//    print("获取设备宽度值${ScreenUtil.screenWidth}");
 
     return Container(
       height: ScreenUtil().setHeight(300),
@@ -268,7 +265,7 @@ class SwiperDiy extends StatelessWidget {
         // 构造器
         itemBuilder: (BuildContext context,int index){
           // 获取静态资源
-            return Image.network("${swiperDataList[index]['url']}",fit: BoxFit.fill,);
+            return getNetWorkImage("${swiperDataList[index]['url']}");
         },
         //数量
         itemCount: 3,
@@ -284,7 +281,7 @@ class SwiperDiy extends StatelessWidget {
 /// 中部类别导航组件
 class MidNavigator extends StatelessWidget {
   final List navigatorList ;
-  MidNavigator({this.navigatorList});
+  MidNavigator({Key key,this.navigatorList}):super(key:key);
 
   ///构建一个小组件
   Widget _gridViewItemUI(BuildContext context,item){
@@ -296,10 +293,7 @@ class MidNavigator extends StatelessWidget {
       },
       child: Column(
         children: <Widget>[
-          Image.network(item['url'],
-            width: ScreenUtil().setWidth(150),
-            height: ScreenUtil().setHeight(150),
-            ),
+          getNetWorkImageWithWH(item['url'],150,150),
           Text(item['name'])
         ],
       ),
@@ -313,6 +307,7 @@ class MidNavigator extends StatelessWidget {
       padding: EdgeInsets.all(2.5),
       //设置网格列表狮子
       child: GridView.count(
+        physics: NeverScrollableScrollPhysics(),
         //每行4各
         crossAxisCount: 4,
         padding: EdgeInsets.all(5.0),
@@ -335,7 +330,7 @@ class AdBar extends StatelessWidget {
         onTap: _launcherUrl,
       child: Container(
         width: 768.0,
-        child: Image.network(adPic),
+        child: getNetWorkImage(adPic),
       )
     );
   }
@@ -360,7 +355,7 @@ class LeaderPhone extends StatelessWidget {
   final String leaderImage;
   final String serialNumber;
 
-  LeaderPhone(this.leaderImage,this.serialNumber);
+  LeaderPhone({Key key,this.leaderImage,this.serialNumber}):super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -369,7 +364,7 @@ class LeaderPhone extends StatelessWidget {
       height: 100.0,
       child: InkWell(
         onTap: _launcherUrl,
-        child: Image.network(leaderImage),
+        child: getNetWorkImage(leaderImage),
       ),
     );
   }
@@ -389,7 +384,7 @@ class LeaderPhone extends StatelessWidget {
 /// 商品推荐
 class Recommend extends StatelessWidget {
   final List recommendList;
-  Recommend(this.recommendList);
+  Recommend({Key key,this.recommendList}):super(key:key);
 
   //标题方法
   Widget _titleWidget(){
@@ -434,7 +429,7 @@ class Recommend extends StatelessWidget {
         child: Column(
           //每个小项 由三个内容组成: 图标,商品价格,源价格
           children: <Widget>[
-            Image.network(recommendList[index]['url']),
+            getNetWorkImage(recommendList[index]['url']),
             Text(
                 '￥${recommendList[index]['new_price']}',
               style: TextStyle(
@@ -499,12 +494,12 @@ class Recommend extends StatelessWidget {
 /// 楼层组件 -
 class FloorTitle extends StatelessWidget {
   final String pic_address;
-  FloorTitle(this.pic_address);
+  FloorTitle({Key key,this.pic_address}):super(key:key);
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(8.0),
-      child: Image.network(pic_address),
+      child: getNetWorkImage(pic_address),
     );
   }
 }
@@ -513,7 +508,7 @@ class FloorTitle extends StatelessWidget {
 class FloorContent extends StatelessWidget {
   final String picAddress;
   final List floorContents;
-  FloorContent(this.picAddress, this.floorContents);
+  FloorContent({Key key,this.picAddress, this.floorContents}):super(key:key);
 
   @override
   Widget build(BuildContext context) {

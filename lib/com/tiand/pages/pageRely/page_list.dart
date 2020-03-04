@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app/com/tiand/config/service_url.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 //引入底部导航栏的分类页面
 import '../home_page.dart';
 import '../member_page.dart';
@@ -45,4 +46,11 @@ final List<Widget> tabBodyList = [
 Widget getNetWorkImage(String path){
   String url = serviceUrlStatic + path;
   return Image.network(url);
+}
+
+Widget getNetWorkImageWithWH(String path,width,height){
+  String url = serviceUrlStatic + path;
+  return Image.network(url,
+    width: ScreenUtil().setWidth(width),
+    height: ScreenUtil().setHeight(height),);
 }

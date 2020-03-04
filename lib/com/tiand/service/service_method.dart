@@ -53,14 +53,14 @@ Future gerDoubanData() async {
 //获取首页轮播图片
 Future getHomePageImg(String url,{formData}) async{
   try {
-    print('开始获取首页数据');
+    //print('开始获取首页数据');
     Dio dio = Dio();
     //发送时候的请求类型  这里使用表单的模式向后端传送数据
     dio.options.contentType = "application/x-www-form-urlencoded";
     Response response;
     //直接获取 const地址
     if (formData == null ){
-      response = await dio.post(url);
+      response = await dio.get(url);
     }else{
       response = await dio.post(
           url,
@@ -73,6 +73,7 @@ Future getHomePageImg(String url,{formData}) async{
       throw Exception('后端接口访问异常!');
     }
   }catch(e){
-    return print('ERROR: =======>${e}');
+    print('ERROR: =======>${e}');
+    return '';
   }
 }
