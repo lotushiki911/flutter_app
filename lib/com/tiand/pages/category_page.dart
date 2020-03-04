@@ -53,9 +53,11 @@ class LeftCategoryNav extends StatefulWidget {
 }
 
 class _LeftCategoryNavState extends State<LeftCategoryNav> {
-
+  //保存获取的大类列表
   List<ProductData> leftList = [];
 
+  //点击高亮显示
+  int indexClick = 0;
   @override
   void initState() {
     _getCateGory();
@@ -85,8 +87,14 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
 
   //页面布置 - 左边类别导航
   Widget _leftInkWell(int index){
+    bool isClick = false;
+    isClick = indexClick == index ? true : false;
+
     return InkWell(
       onTap: (){
+        setState(() {
+          indexClick = index;
+        });
         //绑定provide进行左右侧导航栏联动改变
         var childList = leftList[index].subProductSet;
         Provide.value<ChildCategoryProvide>(context).getChildCategory(childList);
@@ -103,7 +111,8 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
         ),
         //装饰器
         decoration: BoxDecoration(
-          color: Colors.white,
+          //点击高亮
+          color: isClick?Colors.yellow : Colors.white,
           //包边
           border: Border(
             bottom: BorderSide(
@@ -124,7 +133,7 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
       var data = json.decode(val.toString());
       print(data);
       ProductCategory productCategory = ProductCategory.fromJson(data);
-      //将后台获取的数据  在页面动态显示
+      //将后台获取的大类数据  在页面动态显示
       setState(() {
         leftList = productCategory.productData;
       });
