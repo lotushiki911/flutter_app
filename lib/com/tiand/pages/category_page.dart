@@ -1,7 +1,7 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../config/httpHeaders.dart';
+import 'package:flutter_app/com/tiand/config/service_url.dart';
+import 'package:flutter_app/com/tiand/service/service_method.dart';
 
 class CategoryPage extends StatefulWidget {
   @override
@@ -9,63 +9,30 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage> {
-  String _categoryText = '欢迎';
+
+  @override
+  void initState() {
+    // TODO: implement initState
+//    _getCateGory();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
+    _getCateGory();
     return Container(
       child: Scaffold(
           appBar: AppBar(title: Text('测试一下子'),),
-          body: SingleChildScrollView(
-            child:Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  RaisedButton(
-                    onPressed: _controlButton,
-                    child: Text('点我'),
-                  ),
-                  Text(_categoryText)
-                ],
-              ),
-            )
+          body: Container(
+              child: Text('hehe'),
           )
       ),
     );
   }
 
-  void _controlButton(){
-    getHttp().then((onValue){
-      setState(() {
-        print('---onValue:');
-        print(onValue);
-//        _categoryText = onValue;
-        _categoryText = onValue.toString();
-      });
+  void _getCateGory() async{
+    await getHomePageImg(servicePath['categoryPageInfo']).then((val){
+      print('分类数据获取${val}');
     });
-  }
-//  //使用请求头访问https
-//  Future getHttp() async{
-//    Response response ;
-//    Dio dio = Dio();
-//    dio.options.headers = httpHeaders;
-//    var url = 'http://47.103.208.185:8088/hi';
-//    //获取网站的返回数据data数据
-//    var url1= 'https://time.geekbang.org/serv/v1/column/newAll';
-//    response = await dio.get(url1);
-//    print(response.data);
-//    return response.data;
-//  }
-
-  Future getHttp() async{
-    Response response ;
-    Dio dio = Dio();
-    //dio.options.headers = httpHeaders;
-    var url = 'http://10.0.2.2:5000/news/test/hehe';
-    //获取网站的返回数据data数据
-//    var url1= 'https://time.geekbang.org/serv/v1/column/newAll';
-    response = await dio.get(url);
-    print(response);
-    return response;
   }
 }
 
