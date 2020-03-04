@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/com/tiand/config/service_url.dart';
 import 'package:flutter_app/com/tiand/service/service_method.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provide/provide.dart';
 import '../model/product_category_model.dart';
+import '../provide/child_category.dart';
 class CategoryPage extends StatefulWidget {
   @override
   _CategoryPageState createState() => _CategoryPageState();
@@ -84,7 +86,11 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
   //页面布置 - 左边类别导航
   Widget _leftInkWell(int index){
     return InkWell(
-      onTap: (){},
+      onTap: (){
+        //绑定provide进行左右侧导航栏联动改变
+        var childList = leftList[index].subProductSet;
+        Provide.value<ChildCategoryProvide>(context).getChildCategory(childList);
+      },
       child: Container(
         //设置高度
         height: ScreenUtil().setHeight(80),
@@ -136,40 +142,45 @@ class RightCategoryNav extends StatefulWidget {
 }
 
 class _RightCategoryNavState extends State<RightCategoryNav> {
-  List list = ['全部','美食','宝宝','旅游','玩具','气球','火车','飞机','外星人'];
+//  List list = ['全部','美食','宝宝','旅游','玩具','气球','火车','飞机','外星人'];
   @override
   Widget build(BuildContext context) {
-    return Container(
-      //右侧的模块
-      height: ScreenUtil().setHeight(80),
-      width: ScreenUtil().setWidth(608),
-      //加个底框
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border(
-          bottom: BorderSide(
-            width: 1,color: Colors.black12
-          )
-        )
-      ),
-      //改为横向布局
-      child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: list.length,
-          itemBuilder: (context,index){
-            return _rightInkWell(list[index]);
-          }
-      ),
+    //引入状态改变数据
+    return Provide<ChildCategoryProvide>(
+      builder: (context,child,childCategory){
+        return Container(
+          //右侧的模块
+          height: ScreenUtil().setHeight(80),
+          width: ScreenUtil().setWidth(608),
+          //加个底框
+          decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border(
+                  bottom: BorderSide(
+                      width: 1,color: Colors.black12
+                  )
+              )
+          ),
+          //改为横向布局
+          child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: childCategory.subProductList.length,
+              itemBuilder: (context,index){
+                return _rightInkWell(childCategory.subProductList[index]);
+              }
+          ),
+        );
+      },
     );
   }
   //右侧的小组件 构建
-  Widget _rightInkWell(String item){
+  Widget _rightInkWell(SubProductSet item){
     return InkWell(
       onTap: (){},
       child: Container(
         padding: EdgeInsets.all(10),
         child: Text(
-            item,
+            item.subProductName,
           style: TextStyle(
             fontSize: ScreenUtil().setSp(24),
             color: Colors.black,
