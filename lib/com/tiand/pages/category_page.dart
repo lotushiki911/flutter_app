@@ -55,7 +55,7 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: ScreenUtil().setWidth(180),
+      width: ScreenUtil().setWidth(160),
       decoration: BoxDecoration(
         border: Border(
           right: BorderSide(width: 1,color: Colors.black12)
@@ -79,13 +79,13 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
       onTap: (){},
       child: Container(
         //设置高度
-        height: ScreenUtil().setHeight(100),
+        height: ScreenUtil().setHeight(80),
         //设置边距
-        padding: EdgeInsets.only(left: 10,top: 20),
+        padding: EdgeInsets.only(left: 10,top: 10),
         //大类的名称
         child: Text(
           leftList[index].productCategoryName,
-          style: TextStyle(fontSize: ScreenUtil().setSp(30)),
+          style: TextStyle(fontSize: ScreenUtil().setSp(28)),
         ),
         //装饰器
         decoration: BoxDecoration(
