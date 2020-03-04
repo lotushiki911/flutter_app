@@ -137,6 +137,8 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
       setState(() {
         leftList = productCategory.productData;
       });
+      //传递第一个值 让右侧的导航栏有显示
+      Provide.value<ChildCategoryProvide>(context).getChildCategory(leftList[0].subProductSet);
     });
   }
 

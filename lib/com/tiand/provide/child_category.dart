@@ -5,8 +5,14 @@ class ChildCategoryProvide with ChangeNotifier{
   List<SubProductSet> subProductList = [];
 
   //绑定一个待改变状态数据
-  getChildCategory(List list){
-    subProductList = list;
+  getChildCategory(List<SubProductSet> list){
+    SubProductSet all = SubProductSet();
+    all.productCategoryId = '00';
+    all.subProductName = "全部";
+    all.remark = "";
+    all.sId = "00";
+    subProductList = [all];
+    subProductList.addAll(list);
     notifyListeners();
   }
 }
