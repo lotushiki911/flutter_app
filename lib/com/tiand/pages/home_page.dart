@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/com/tiand/config/service_url.dart';
 import 'package:flutter_app/com/tiand/pages/pageRely/page_list.dart';
-import 'package:flutter_easyrefresh/material_footer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import '../service/service_method.dart';
@@ -265,7 +264,7 @@ class SwiperDiy extends StatelessWidget {
         // 构造器
         itemBuilder: (BuildContext context,int index){
           // 获取静态资源
-            return getNetWorkImage("${swiperDataList[index]['url']}");
+            return getNetWorkImageWithWH("${swiperDataList[index]['url']}",768,300);
         },
         //数量
         itemCount: 3,
