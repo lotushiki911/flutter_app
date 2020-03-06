@@ -10,6 +10,7 @@ import 'package:provide/provide.dart';
 import '../model/product_category_model.dart';
 import '../provide/child_category_provide.dart';
 import '../model/category_goods_model.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
 class CategoryPage extends StatefulWidget {
   @override
   _CategoryPageState createState() => _CategoryPageState();
@@ -288,6 +289,7 @@ class CategoryGoodsList extends StatefulWidget {
 
 class _CategoryGoodsListState extends State<CategoryGoodsList> {
 
+  GlobalKey<RefreshFooterState> _footerkey = new GlobalKey<RefreshFooterState>();
 //  List<GoodsData> goodsList = [];
   @override
   void initState() {
@@ -306,12 +308,35 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
               child: Container(
                 width: ScreenUtil().setWidth(608),
 //            height: ScreenUtil().setHeight(800),
-                child: ListView.builder(
-                    itemCount: categoryProvide.goodsDataList.length,
-                    itemBuilder: (context, index) {
-                      return _goodsWidget(categoryProvide.goodsDataList[index]);
-                    }
-                ),
+                child: EasyRefresh(
+                  //自定义刷新footer
+                  refreshFooter: ClassicsFooter(
+                    key: _footerkey,
+                    bgColor: Colors.white,
+                    textColor: Colors.pink,
+                    //加载时候的颜色
+                    moreInfoColor: Colors.pink,
+                    //是否加载更多
+                    showMore: true,
+                    noMoreText: Provide.value<ChildCategoryProvide>(context).noMoreText,
+                    moreInfo: '加载中',
+                    loadedText: '呵呵呵',
+                    loadingText: '加载完成',
+                    //准备文字
+                    loadReadyText: '准备加载...',
+                    loadText: '加载...',
+                  ),
+                  loadMore: ()async{
+                    print('上拉加载更多');
+                    _getMoreList();
+                  },
+                  child: ListView.builder(
+                      itemCount: categoryProvide.goodsDataList.length,
+                      itemBuilder: (context, index) {
+                        return _goodsWidget(categoryProvide.goodsDataList[index]);
+                      }
+                  ),
+                )
               ),
             );
           }else{
@@ -321,7 +346,46 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
         });
   }
 
+//接口获取商品列表
+  void _getMoreList() {
+    //每次上拉都需要把page 加一 以便加载新的数据
+    Provide.value<ChildCategoryProvide>(context).addPage();
+    String categoryId = Provide.value<ChildCategoryProvide>(context).categoryId;
+    String subId = Provide.value<ChildCategoryProvide>(context).subId;
+    int page = Provide.value<ChildCategoryProvide>(context).page;
 
+    print('大类是${categoryId},小类是${subId},当前分页数:${page}');
+    //传参
+    var data={
+      //大类项
+      'categoryId': categoryId == null ? '1':categoryId,
+      //小项id
+      'categorySubId': subId == null ? '':subId,
+      //分页数
+      'page': page,
+    };
+    getHomePageImg(servicePath['categoryPageGoods'],formData: data).then((val){
+      var data = json.decode(val.toString());
+//      print("------------->{$data}");
+      CategoryGoodsModel categoryGoodsModel = CategoryGoodsModel.fromJson(data);
+      print("--------获取商品列表----->");
+      if(categoryGoodsModel.goodsData.length == 0){
+        print('没有查询到列表数据');
+//        Provide.value<CategoryGoodsProvide>(context).getCategoryGoods([]);
+        Provide.value<ChildCategoryProvide>(context).changeNoMore('没有更多数据了');
+      }else{
+        //每次上拉之后,更新当前的list 需要把新查询出来的list追加到之前的list中
+        Provide.value<CategoryGoodsProvide>(context).getCategoryGoodsMore(categoryGoodsModel.goodsData);
+        if(categoryGoodsModel.goodsData.length > 0) {
+          print(categoryGoodsModel.goodsData[0].goodsName);
+          print(categoryGoodsModel.goodsData[0].presentPrice.toString());
+          print(categoryGoodsModel.goodsData[0].image);
+        }
+      }
+
+
+    });
+  }
 
   /// 列表详情页的拆分和组合
   /// 将本来的ListView 拆分成独立的 图片组件 标题组件和价格组件

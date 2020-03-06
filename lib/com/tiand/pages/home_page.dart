@@ -104,7 +104,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
                   //是否加载更多
                   showMore: true,
                   noMoreText: '',
-                  moreInfo: '没有更多了',
+                  moreInfo: '加载中',
                   loadedText: '呵呵呵',
                   loadingText: '加载完成',
                   //准备文字
