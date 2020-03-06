@@ -100,8 +100,8 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
         });
         //绑定provide进行左右侧导航栏联动改变
         List<SubProductSet> childList = leftList[index].subProductSet;
-        Provide.value<ChildCategoryProvide>(context).getChildCategory(childList);
         String categoryId = leftList[index].productCategoryId;
+        Provide.value<ChildCategoryProvide>(context).getChildCategory(childList,categoryId);
         print('大类是${categoryId}');
         _get_goods_list(categoryId:categoryId);
 //        Provide.value<CategoryGoodsProvide>(context).getCategoryGoods(goodsList);
@@ -145,7 +145,8 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
         leftList = productCategory.productData;
       });
       //传递第一个值 让右侧的导航栏有显示
-      Provide.value<ChildCategoryProvide>(context).getChildCategory(leftList[0].subProductSet);
+      Provide.value<ChildCategoryProvide>(context)
+          .getChildCategory(leftList[0].subProductSet,leftList[0].productCategoryId);
     });
   }
 
@@ -207,7 +208,10 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
               scrollDirection: Axis.horizontal,
               itemCount: childCategory.subProductList.length,
               itemBuilder: (context,index){
-                return _rightInkWell(childCategory.subProductList[index],index);
+                return _rightInkWell(
+                    childCategory.subProductList[index],
+                    index,
+                    );
               }
           ),
         );
@@ -215,20 +219,17 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
     );
   }
   //右侧的小组件 构建
-  Widget _rightInkWell(SubProductSet item,int index){
+  Widget _rightInkWell(SubProductSet item, int index,){
     bool isClick = false;
     //index 原值  对比点击值
     int clickIndex = Provide.value<ChildCategoryProvide>(context).childIndex;
     isClick = index == clickIndex?true : false;
     return InkWell(
       onTap: (){
-//        print('大类是${categoryId},小类是${subId}');
           //点击改变右侧高亮
         Provide.value<ChildCategoryProvide>(context).changeChildIndex(index);
-//        String categoryId = item.productCategoryId;
-//        String subId = item.subId;
-//        print('大类是${categoryId},小类是${subId}');
-//        _get_goods_list(categoryId:categoryId,subId :subId);
+
+        _get_goods_list(subId :item.subId);
       },
       child: Container(
         padding: EdgeInsets.all(10),
@@ -244,7 +245,9 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
     );
   }
 //接口获取商品列表
-  void _get_goods_list({String categoryId,String subId}) async{
+  void _get_goods_list({String subId}) {
+    String categoryId = Provide.value<ChildCategoryProvide>(context).categoryId;
+    print('大类是${categoryId},小类是${subId}');
     //传参
     var data={
       //大类项
@@ -254,7 +257,7 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
       //分页数
       'page': 1,
     };
-    await getHomePageImg(servicePath['categoryPageGoods'],formData: data).then((val){
+    getHomePageImg(servicePath['categoryPageGoods'],formData: data).then((val){
       var data = json.decode(val.toString());
 //      print("------------->{$data}");
       CategoryGoodsModel categoryGoodsModel = CategoryGoodsModel.fromJson(data);
