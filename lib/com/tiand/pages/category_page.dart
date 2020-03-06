@@ -290,6 +290,8 @@ class CategoryGoodsList extends StatefulWidget {
 class _CategoryGoodsListState extends State<CategoryGoodsList> {
 
   GlobalKey<RefreshFooterState> _footerkey = new GlobalKey<RefreshFooterState>();
+
+  ScrollController scrollController = new ScrollController();
 //  List<GoodsData> goodsList = [];
   @override
   void initState() {
@@ -302,6 +304,13 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
   Widget build(BuildContext context) {
     return Provide<CategoryGoodsProvide>(
         builder: (context, child, categoryProvide) {
+          //增加控制器控制 如果切换了小类或者大类 调转到列表的最上面
+          try{
+            scrollController.jumpTo(0.0);
+          }catch(e){
+            print('第一次跳转过来');
+          }
+
           if(categoryProvide.goodsDataList.length > 0){
             //自动伸缩小部件
             return Expanded(
@@ -320,17 +329,15 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
                     showMore: true,
                     noMoreText: Provide.value<ChildCategoryProvide>(context).noMoreText,
                     moreInfo: '加载中',
-                    loadedText: '呵呵呵',
-                    loadingText: '加载完成',
                     //准备文字
-                    loadReadyText: '准备加载...',
-                    loadText: '加载...',
+                    loadReadyText: '上拉加载...',
                   ),
                   loadMore: ()async{
                     print('上拉加载更多');
                     _getMoreList();
                   },
                   child: ListView.builder(
+                      controller: scrollController,
                       itemCount: categoryProvide.goodsDataList.length,
                       itemBuilder: (context, index) {
                         return _goodsWidget(categoryProvide.goodsDataList[index]);
@@ -348,12 +355,14 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
 
 //接口获取商品列表
   void _getMoreList() {
-    //每次上拉都需要把page 加一 以便加载新的数据
-    Provide.value<ChildCategoryProvide>(context).addPage();
+
     String categoryId = Provide.value<ChildCategoryProvide>(context).categoryId;
     String subId = Provide.value<ChildCategoryProvide>(context).subId;
     int page = Provide.value<ChildCategoryProvide>(context).page;
-
+    if(page == 1){
+      Provide.value<ChildCategoryProvide>(context).addPage();
+      page ++ ;
+    }
     print('大类是${categoryId},小类是${subId},当前分页数:${page}');
     //传参
     var data={
@@ -381,6 +390,8 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
           print(categoryGoodsModel.goodsData[0].presentPrice.toString());
           print(categoryGoodsModel.goodsData[0].image);
         }
+        //每次上拉都需要把page 加一 以便加载新的数据
+        Provide.value<ChildCategoryProvide>(context).addPage();
       }
 
 
