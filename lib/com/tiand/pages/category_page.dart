@@ -207,7 +207,7 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
               scrollDirection: Axis.horizontal,
               itemCount: childCategory.subProductList.length,
               itemBuilder: (context,index){
-                return _rightInkWell(childCategory.subProductList[index]);
+                return _rightInkWell(childCategory.subProductList[index],index);
               }
           ),
         );
@@ -215,13 +215,20 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
     );
   }
   //右侧的小组件 构建
-  Widget _rightInkWell(SubProductSet item){
+  Widget _rightInkWell(SubProductSet item,int index){
+    bool isClick = false;
+    //index 原值  对比点击值
+    int clickIndex = Provide.value<ChildCategoryProvide>(context).childIndex;
+    isClick = index == clickIndex?true : false;
     return InkWell(
       onTap: (){
-        String categoryId = item.productCategoryId;
-        String subId = item.subId;
-        print('大类是${categoryId},小类是${subId}');
-        _get_goods_list(categoryId:categoryId,subId :subId);
+//        print('大类是${categoryId},小类是${subId}');
+          //点击改变右侧高亮
+        Provide.value<ChildCategoryProvide>(context).changeChildIndex(index);
+//        String categoryId = item.productCategoryId;
+//        String subId = item.subId;
+//        print('大类是${categoryId},小类是${subId}');
+//        _get_goods_list(categoryId:categoryId,subId :subId);
       },
       child: Container(
         padding: EdgeInsets.all(10),
@@ -229,7 +236,7 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
             item.subProductName,
           style: TextStyle(
             fontSize: ScreenUtil().setSp(24),
-            color: Colors.black,
+            color: isClick?Colors.pinkAccent:Colors.black,
           ),
 
         ),
