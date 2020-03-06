@@ -10,7 +10,7 @@ class ChildCategoryProvide with ChangeNotifier{
     all.productCategoryId = '00';
     all.subProductName = "全部";
     all.remark = "";
-    all.sId = "00";
+    all.subId = "";
     subProductList = [all];
     subProductList.addAll(list);
     notifyListeners();

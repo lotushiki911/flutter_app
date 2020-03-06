@@ -13,6 +13,8 @@ const servicePath = {
 //  'homePageImgByMongo':serviceUrl+'pages/home_img/',  //首页轮播图片
   'homePageJumu':serviceUrl+'static/get_jumu/',  //首页轮播图片
   'homePageHuobao':serviceUrl+'static/get_huobao/',  //首页推荐图片
-  //分类页面数据获取
+  //分类页面导航数据获取
   'categoryPageInfo': serviceUrl + 'static/get_category/',
+  //商品分页的商品列表
+  'categoryPageGoods': serviceUrl + 'static/get_category_goods/'
 };

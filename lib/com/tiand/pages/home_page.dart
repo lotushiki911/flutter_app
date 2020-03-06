@@ -257,8 +257,9 @@ class SwiperDiy extends StatelessWidget {
 //    print("获取设备宽度值${ScreenUtil.screenWidth}");
 
     return Container(
+      //宽高不设置会报错
       height: ScreenUtil().setHeight(300),
-      width: ScreenUtil().setWidth(768),
+      width: ScreenUtil().setWidth(600),
 //      width: 200,
       child: Swiper(
         // 构造器
@@ -336,7 +337,7 @@ class AdBar extends StatelessWidget {
 
   //外拨 电话 短信 email http
   void _launcherUrl() async{
-    String url = 'tel:' + '+8617702779595';
+    String url = 'tel:' + '+8618900010001';
 //    String url = 'http://www.baidu.com';
 
     //异步 判断是否可用
