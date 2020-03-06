@@ -5,6 +5,7 @@ class ChildCategoryProvide with ChangeNotifier{
   List<SubProductSet> subProductList = [];
   int childIndex = 0; //子类高亮索引
   String categoryId = '1' ; // 传递大类的id需要保持
+  String subId = ""; //子类传递的id
 
   //绑定一个待改变状态数据
   getChildCategory(List<SubProductSet> list,cId){
@@ -22,7 +23,8 @@ class ChildCategoryProvide with ChangeNotifier{
   }
 
   //改编子类 高亮
-  changeChildIndex(index ){
+  changeChildIndex(index ,sId){
+    subId = sId;
     childIndex = index;
     notifyListeners();
   }

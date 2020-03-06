@@ -227,7 +227,7 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
     return InkWell(
       onTap: (){
           //点击改变右侧高亮
-        Provide.value<ChildCategoryProvide>(context).changeChildIndex(index);
+        Provide.value<ChildCategoryProvide>(context).changeChildIndex(index,item.subId);
 
         _get_goods_list(subId :item.subId);
       },
@@ -246,6 +246,7 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
   }
 //接口获取商品列表
   void _get_goods_list({String subId}) {
+
     String categoryId = Provide.value<ChildCategoryProvide>(context).categoryId;
     print('大类是${categoryId},小类是${subId}');
     //传参
@@ -262,12 +263,19 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
 //      print("------------->{$data}");
       CategoryGoodsModel categoryGoodsModel = CategoryGoodsModel.fromJson(data);
       print("--------获取商品列表----->");
-      if(categoryGoodsModel.goodsData.length > 0) {
-        print(categoryGoodsModel.goodsData[0].goodsName);
-        print(categoryGoodsModel.goodsData[0].presentPrice.toString());
-        print(categoryGoodsModel.goodsData[0].image);
+      if(categoryGoodsModel.goodsData == null){
+        print('没有查询到列表数据');
+        Provide.value<CategoryGoodsProvide>(context).getCategoryGoods([]);
+      }else{
+        Provide.value<CategoryGoodsProvide>(context).getCategoryGoods(categoryGoodsModel.goodsData);
+        if(categoryGoodsModel.goodsData.length > 0) {
+          print(categoryGoodsModel.goodsData[0].goodsName);
+          print(categoryGoodsModel.goodsData[0].presentPrice.toString());
+          print(categoryGoodsModel.goodsData[0].image);
+        }
       }
-      Provide.value<CategoryGoodsProvide>(context).getCategoryGoods(categoryGoodsModel.goodsData);
+
+
     });
   }
 }
@@ -292,19 +300,24 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
   Widget build(BuildContext context) {
     return Provide<CategoryGoodsProvide>(
         builder: (context, child, categoryProvide) {
-          //自动伸缩小部件
-          return Expanded(
-            child: Container(
-              width: ScreenUtil().setWidth(608),
+          if(categoryProvide.goodsDataList.length > 0){
+            //自动伸缩小部件
+            return Expanded(
+              child: Container(
+                width: ScreenUtil().setWidth(608),
 //            height: ScreenUtil().setHeight(800),
-              child: ListView.builder(
-                  itemCount: categoryProvide.goodsDataList.length,
-                  itemBuilder: (context, index) {
-                    return _goodsWidget(categoryProvide.goodsDataList[index]);
-                  }
+                child: ListView.builder(
+                    itemCount: categoryProvide.goodsDataList.length,
+                    itemBuilder: (context, index) {
+                      return _goodsWidget(categoryProvide.goodsDataList[index]);
+                    }
+                ),
               ),
-            ),
-          );
+            );
+          }else{
+            return Text('暂时没有数据');
+          }
+
         });
   }
 
