@@ -11,6 +11,7 @@ import '../model/product_category_model.dart';
 import '../provide/child_category_provide.dart';
 import '../model/category_goods_model.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 class CategoryPage extends StatefulWidget {
   @override
   _CategoryPageState createState() => _CategoryPageState();
@@ -114,7 +115,7 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
         padding: EdgeInsets.only(left: 10,top: 10),
         //大类的名称
         child: Text(
-          leftList[index].productCategoryName,
+          leftList[index].productCategoryName.toString(),
           style: TextStyle(fontSize: ScreenUtil().setSp(28)),
         ),
         //装饰器
@@ -327,7 +328,7 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
                     moreInfoColor: Colors.pink,
                     //是否加载更多
                     showMore: true,
-                    noMoreText: Provide.value<ChildCategoryProvide>(context).noMoreText,
+                    noMoreText: '', //Provide.value<ChildCategoryProvide>(context).noMoreText,
                     moreInfo: '加载中',
                     //准备文字
                     loadReadyText: '上拉加载...',
@@ -381,6 +382,20 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
       if(categoryGoodsModel.goodsData.length == 0){
         print('没有查询到列表数据');
 //        Provide.value<CategoryGoodsProvide>(context).getCategoryGoods([]);
+        Fluttertoast.showToast(
+          //待提示的内容 字符串
+          msg: '已经到底了',
+          //亲提示的大小长短
+          toastLength: Toast.LENGTH_SHORT,
+          // 提示的位置 底部提示 顶部提示 中部提示
+          gravity: ToastGravity.BOTTOM,
+          //提示背景颜色
+          backgroundColor: Colors.pinkAccent,
+          //文字颜色
+          textColor: Colors.white,
+          //字体大小
+          fontSize: 16
+        );
         Provide.value<ChildCategoryProvide>(context).changeNoMore('没有更多数据了');
       }else{
         //每次上拉之后,更新当前的list 需要把新查询出来的list追加到之前的list中

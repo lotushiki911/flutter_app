@@ -38,6 +38,10 @@ dependencies:
   flutter_easyrefresh: ^1.2.7
   # 状态管理
   provide: ^1.0.2
+  # 亲提示插件
+  fluttertoast: ^3.1.2
+  # 企业级路由
+
 
 
 # 一般用在测试开发环境中的  库 插件等 上线时不会被打包

@@ -252,9 +252,9 @@ class SwiperDiy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-//    print("获取设备像素密度值${ScreenUtil.pixelRatio}");
-//    print("获取设备高度值${ScreenUtil.screenHeight}");
-//    print("获取设备宽度值${ScreenUtil.screenWidth}");
+    print("获取设备像素密度值${ScreenUtil.pixelRatio}");
+    print("获取设备高度值${ScreenUtil.screenHeight}");
+    print("获取设备宽度值${ScreenUtil.screenWidth}");
 
     return Container(
       //宽高不设置会报错
@@ -293,7 +293,7 @@ class MidNavigator extends StatelessWidget {
       },
       child: Column(
         children: <Widget>[
-          getNetWorkImageWithWH(item['url'],150,150),
+          getNetWorkImageWithWH(item['url'],118,118),
           Text(item['name'])
         ],
       ),
