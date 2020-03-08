@@ -37,7 +37,7 @@ class DetailsPage extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   DetailsTopArea(),
-                  DetailPrice(),
+                  DetailPriceArea(),
                 ],
               ),
             );

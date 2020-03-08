@@ -9,8 +9,8 @@ class DetailsTopArea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provide<GoodDetailProvide>(
-      builder: (context,child,goodDetail){
-        DetailInfo detailInfo = goodDetail.detailsModel.detailData.detailInfo;
+      builder: (context,child,val){
+        DetailInfo detailInfo = val.detailsModel.detailData.detailInfo;
         if(detailInfo != null) {
           return Container(
 //            height: ScreenUtil().setHeight(900),
@@ -35,13 +35,13 @@ class DetailsTopArea extends StatelessWidget {
   Widget _goodsImage(url){
     return Image.network(
       serviceUrlStatic + url,
-      width: ScreenUtil().setWidth(740),);
+      width: ScreenUtil().setWidth(700),);
   }
   //头部 - 名称
   Widget _goodsName(name){
     return Container(
 //      height: ScreenUtil().setHeight(40),
-      width: ScreenUtil().setWidth(740),
+      width: ScreenUtil().setWidth(700),
       margin: EdgeInsets.only(left: 15),
       child: Text(
         name,
@@ -56,7 +56,7 @@ class DetailsTopArea extends StatelessWidget {
   //头部 - 编码
   Widget _goodsNum(num){
     return Container(
-      width: ScreenUtil().setWidth(720),
+      width: ScreenUtil().setWidth(650),
       margin: EdgeInsets.only(left: 15,top: 8),
       child: Text(
         '商品编号${num}',

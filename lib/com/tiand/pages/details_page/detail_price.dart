@@ -5,12 +5,12 @@ import '../../provide/goods_detail_provide.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
-class DetailPrice extends StatelessWidget {
+class DetailPriceArea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provide<GoodDetailProvide>(
-        builder: (context, child, goodDetail) {
-          DetailInfo detailInfo = goodDetail.detailsModel.detailData.detailInfo;
+        builder: (context, child, val) {
+          DetailInfo detailInfo = val.detailsModel.detailData.detailInfo;
           if (detailInfo != null) {
             return Container(
               child: Row(
