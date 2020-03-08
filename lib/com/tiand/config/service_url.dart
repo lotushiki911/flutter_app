@@ -16,5 +16,7 @@ const servicePath = {
   //分类页面导航数据获取
   'categoryPageInfo': serviceUrl + 'static/get_category/',
   //商品分页的商品列表
-  'categoryPageGoods': serviceUrl + 'static/get_category_goods/'
+  'categoryPageGoods': serviceUrl + 'static/get_category_goods/',
+  // 商品详情页的接口
+  'getGoodsDetailInfo': serviceUrl + 'static/get_goods_detail/',
 };
