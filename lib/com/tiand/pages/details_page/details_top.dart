@@ -42,7 +42,7 @@ class DetailsTopArea extends StatelessWidget {
     return Container(
 //      height: ScreenUtil().setHeight(40),
       width: ScreenUtil().setWidth(700),
-      margin: EdgeInsets.only(left: 15),
+      margin: EdgeInsets.only(left: 10),
       child: Text(
         name,
         style: TextStyle(
@@ -57,11 +57,11 @@ class DetailsTopArea extends StatelessWidget {
   Widget _goodsNum(num){
     return Container(
       width: ScreenUtil().setWidth(650),
-      margin: EdgeInsets.only(left: 15,top: 8),
+      margin: EdgeInsets.only(left: 10,top: 4),
       child: Text(
         '商品编号${num}',
         style: TextStyle(
-          color: Colors.black12,
+          color: Colors.black38,
           fontSize: ScreenUtil().setHeight(20)
         ),
       ),

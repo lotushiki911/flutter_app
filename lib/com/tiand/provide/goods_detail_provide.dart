@@ -28,7 +28,7 @@ class GoodDetailProvide with ChangeNotifier{
     var formData = {'goods_id': detailId};
     await requestForm('getGoodsDetailInfo',formData: formData).then((val){
       var responseData = json.decode(val.toString());
-      print(responseData);
+//      print(responseData);
       goodDetals = DetailsModel.fromJson(responseData);
       print('商品名称是${goodDetals.detailData.detailInfo.goodsName}');
       //数据获取完了通知
