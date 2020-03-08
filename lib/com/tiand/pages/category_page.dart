@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/com/tiand/config/service_url.dart';
 import 'package:flutter_app/com/tiand/provide/category_goods_provide.dart';
+import 'package:flutter_app/com/tiand/routers/routers_application.dart';
 import 'package:flutter_app/com/tiand/service/service_method.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provide/provide.dart';
@@ -422,7 +423,9 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
   /// 组合商品组件
   Widget _goodsWidget(GoodsData goodsData){
     return InkWell(
-      onTap: (){},
+      onTap: (){
+        RoutersApplication.router.navigateTo(context, '/detail?id=lunbo1');
+      },
       child: Container(
         padding: EdgeInsets.only(top: 5,bottom: 5),
         //设置背景色 加个底框

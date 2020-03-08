@@ -259,9 +259,9 @@ class SwiperDiy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    print("获取设备像素密度值${ScreenUtil.pixelRatio}");
-    print("获取设备高度值${ScreenUtil.screenHeight}");
-    print("获取设备宽度值${ScreenUtil.screenWidth}");
+//    print("获取设备像素密度值${ScreenUtil.pixelRatio}");
+//    print("获取设备高度值${ScreenUtil.screenHeight}");
+//    print("获取设备宽度值${ScreenUtil.screenWidth}");
 
     return Container(
       //宽高不设置会报错
@@ -272,7 +272,13 @@ class SwiperDiy extends StatelessWidget {
         // 构造器
         itemBuilder: (BuildContext context,int index){
           // 获取静态资源
-            return getNetWorkImageWithWH("${swiperDataList[index]['url']}",768,300);
+          return InkWell(
+            onTap: (){
+              RoutersApplication.router.navigateTo(context, '/detail?id=lunbo1');
+            },
+            child: getNetWorkImageWithWH("${swiperDataList[index]['url']}",768,300),
+          );
+//            return
         },
         //数量
         itemCount: 3,
@@ -415,10 +421,11 @@ class Recommend extends StatelessWidget {
   }
 
   //商品单独项方法  跳转到详情页
-  Widget _item(index){
+  Widget _item(context,index,){
     return InkWell(
       onTap: (){
         print('商品详情');
+        RoutersApplication.router.navigateTo(context, '/detail?id=lunbo1');
       },
       child: Container(
         height: ScreenUtil().setHeight(300),
@@ -470,7 +477,7 @@ class Recommend extends StatelessWidget {
         //数量
         itemCount: recommendList.length,
         itemBuilder: (context,index){
-          return _item(index);
+          return _item(context,index);
         },
       ),
       //外边距
@@ -530,21 +537,23 @@ class FloorContent extends StatelessWidget {
             child: getNetWorkImage(picAddress),
           ),
           //2 商品列表
-          _firstRow(),
-          _secondRow(),
+          _firstRow(context),
+          _secondRow(context),
         ],
       ),
     );
   }
 
   //定义单个模组
-  Widget _goodsItem(Map goods,int width,int height){
+  Widget _goodsItem(context,Map goods,int width,int height){
     return Container(
       width: ScreenUtil().setWidth(width),
       height: ScreenUtil().setHeight(height),
       child: InkWell(
         onTap: (){
-          print('楼层商品详情');
+//          print('楼层商品详情');
+          RoutersApplication.router.navigateTo(context, '/detail?id=lunbo1');
+
         },
         child: getNetWorkImage(goods['url']),
       ),
@@ -552,27 +561,27 @@ class FloorContent extends StatelessWidget {
   }
 
   // 第一行楼层组建
-  Widget _firstRow(){
+  Widget _firstRow(context){
     return Row(
       children: <Widget>[
         //左边是一个大的
-        _goodsItem(floorContents[0],384,384),
+        _goodsItem(context,floorContents[0],384,384),
         //右边是两个小的 需要使用column
         Column(
           children: <Widget>[
             Container(
               child: Row(
                 children: <Widget>[
-                  _goodsItem(floorContents[1],192,192),
-                  _goodsItem(floorContents[2],192,192),
+                  _goodsItem(context,floorContents[1],192,192),
+                  _goodsItem(context,floorContents[2],192,192),
                 ],
               ),
             ),
             Container(
               child: Row(
                 children: <Widget>[
-                  _goodsItem(floorContents[3],192,192),
-                  _goodsItem(floorContents[4],192,192),
+                  _goodsItem(context,floorContents[3],192,192),
+                  _goodsItem(context,floorContents[4],192,192),
                 ],
               ),
 //
@@ -584,13 +593,13 @@ class FloorContent extends StatelessWidget {
   }
 
   //第二行楼层组件
-  Widget _secondRow(){
+  Widget _secondRow(context){
     return Row(
       children: <Widget>[
         //左边是一个大的
-        _goodsItem(floorContents[5],384,200),
+        _goodsItem(context,floorContents[5],384,200),
         //右边是两个小的 需要使用column
-        _goodsItem(floorContents[6],384,200),
+        _goodsItem(context,floorContents[6],384,200),
       ],
     );
   }
