@@ -13,11 +13,21 @@ class DetailsWabArea extends StatelessWidget {
     print('web详情:${goodsDetails}');
     return Provide<GoodDetailProvide>(
       builder: (context,child,val){
-        return Container(
-          child: Html(
-            data: goodsDetails,
-          ),
-        );
+        bool isLeft = Provide.value<GoodDetailProvide>(context).isLeft;
+        if(isLeft){
+          return Container(
+            child: Html(
+              data: goodsDetails,
+            ),
+          );
+        }else{
+          return Container(
+            width: ScreenUtil().setWidth(700),
+            padding: EdgeInsets.all(10),
+            alignment: Alignment.center,
+            child: Text('暂时没有数据'),
+          );
+        }
       },
     );
 
