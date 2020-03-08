@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provide/provide.dart';
 import '../provide/goods_detail_provide.dart';
+import 'details_page/detail_price.dart';
 import 'details_page/details_top.dart';
 
 class DetailsPage extends StatelessWidget {
@@ -36,6 +37,7 @@ class DetailsPage extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   DetailsTopArea(),
+                  DetailPrice(),
                 ],
               ),
             );

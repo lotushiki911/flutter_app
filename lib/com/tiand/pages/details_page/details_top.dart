@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/com/tiand/config/service_url.dart';
 import 'package:flutter_app/com/tiand/model/goods_detail_model.dart';
-import 'package:flutter_app/com/tiand/pages/pageRely/page_list.dart';
 import 'package:provide/provide.dart';
 import '../../provide/goods_detail_provide.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -63,7 +62,7 @@ class DetailsTopArea extends StatelessWidget {
         '商品编号${num}',
         style: TextStyle(
           color: Colors.black12,
-          fontSize: ScreenUtil().setHeight(15)
+          fontSize: ScreenUtil().setHeight(20)
         ),
       ),
     );
