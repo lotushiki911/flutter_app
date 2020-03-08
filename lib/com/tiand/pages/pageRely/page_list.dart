@@ -48,6 +48,12 @@ Widget getNetWorkImage(String path){
   return Image.network(url);
 }
 
+Widget getNetWorkImageW(String path,width){
+  String url = serviceUrlStatic + path;
+  return Image.network(url,
+    width: ScreenUtil().setWidth(width),);
+}
+
 Widget getNetWorkImageWithWH(String path,width,height){
   String url = serviceUrlStatic + path;
   return Image.network(url,
