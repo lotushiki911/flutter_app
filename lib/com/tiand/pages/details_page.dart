@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provide/provide.dart';
 import '../provide/goods_detail_provide.dart';
 import 'details_page/detail_price.dart';
+import 'details_page/details_explain.dart';
+import 'details_page/details_tabbar.dart';
 import 'details_page/details_top.dart';
 
 class DetailsPage extends StatelessWidget {
@@ -34,10 +36,12 @@ class DetailsPage extends StatelessWidget {
           //如果获取到了数据
           if(snapshot.hasData){
             return Container(
-              child: Column(
+              child: ListView(
                 children: <Widget>[
                   DetailsTopArea(),
                   DetailPriceArea(),
+                  DetailsExplainArea(),
+                  DetailsTabBar(),
                 ],
               ),
             );

@@ -10,7 +10,7 @@ class DetailsTopArea extends StatelessWidget {
   Widget build(BuildContext context) {
     return Provide<GoodDetailProvide>(
       builder: (context,child,val){
-        DetailInfo detailInfo = val.detailsModel.detailData.detailInfo;
+        DetailInfo detailInfo = Provide.value<GoodDetailProvide>(context).goodDetals.detailData.detailInfo;
         if(detailInfo != null) {
           return Container(
 //            height: ScreenUtil().setHeight(900),
