@@ -9,6 +9,9 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import '../service/service_method.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
+import '../routers/routers_application.dart';
+
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -194,7 +197,11 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
       //将List<Map> 转变为流式布局需要的List<Widget>
       List<Widget> widgetList = hotGoodList.map((val){
         return InkWell(
-          onTap: (){},
+          onTap: (){
+            //使用fluro路由跳转详情页
+            print(val.toString());
+            RoutersApplication.router.navigateTo(context, '/detail?id=${val['_id']['\$oid']}');
+          },
           //每个container包含 一个图片 一个名称  一个价格
           child: Container(
             width: ScreenUtil().setWidth(375),
