@@ -1,7 +1,11 @@
 import 'dart:convert';
-import 'package:flutter_swiper/flutter_swiper.dart';
+import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:provide/provide.dart';
 import '../service/service_method.dart';
+import '../provide/counter.dart';
+
+
 class NewsPage extends StatefulWidget {
   @override
   _NewsPageState createState() => _NewsPageState();
@@ -48,7 +52,9 @@ class _NewsPageState extends State<NewsPage> {
                 //显示省略号
 //                overflow: TextOverflow.ellipsis,
 //                maxLines: 1,
-              )
+              ),
+              Number(),
+              ClickBottom(),
             ],
           ),
         ),)
@@ -83,4 +89,33 @@ class _NewsPageState extends State<NewsPage> {
   }
 }
 
+class Number extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        child: Provide<Counter>(
+          builder: (context,child,counter){
+            return Text(
+                '${counter.value}'
+            );
+          },
+        )
+    );
+  }
+}
+
+
+class ClickBottom extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: RaisedButton(
+        onPressed: (){
+          Provide.value<Counter>(context).increment();
+        },
+        child: Text('点击增加'),
+      ),
+    );
+  }
+}
 
