@@ -25,7 +25,7 @@ class DetailsWabArea extends StatelessWidget {
             width: ScreenUtil().setWidth(700),
             padding: EdgeInsets.all(10),
             alignment: Alignment.center,
-            child: Text('暂时没有数据'),
+            child: Text('好喝!'),
           );
         }
       },
