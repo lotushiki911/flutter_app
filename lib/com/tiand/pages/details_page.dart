@@ -7,7 +7,7 @@ import 'details_page/details_explain.dart';
 import 'details_page/details_tabbar.dart';
 import 'details_page/details_top.dart';
 import 'details_page/details_web.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 class DetailsPage extends StatelessWidget {
   String goodsId;
 
