@@ -9,7 +9,7 @@ import 'package:flutter_html/flutter_html.dart';
 class DetailsWabArea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var goodsDetails = Provide.value<GoodDetailProvide>(context).goodDetals.detailData.detailInfo.goodsDetail;
+    var goodsDetails = Provide.value<GoodDetailProvide>(context).goodDetails.detailData.detailInfo.goodsDetail;
     print('web详情:${goodsDetails}');
     return Provide<GoodDetailProvide>(
       builder: (context,child,val){

@@ -46,6 +46,7 @@ dependencies:
   flutter_html: ^0.11.1
   # 轻量级持久化组件
   shared_preferences: ^0.5.6
+  # 序列化工具
 
 # 一般用在测试开发环境中的  库 插件等 上线时不会被打包
 dev_dependencies:

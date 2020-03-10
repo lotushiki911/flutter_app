@@ -6,7 +6,7 @@ import 'dart:convert';
 //将业务逻辑放入到provide中 与UI界面分离
 
 class GoodDetailProvide with ChangeNotifier{
-  DetailsModel goodDetals = null;
+  DetailsModel goodDetails ;
 
   bool isLeft = true;
   bool isRight = false;
@@ -29,8 +29,8 @@ class GoodDetailProvide with ChangeNotifier{
     await requestForm('getGoodsDetailInfo',formData: formData).then((val){
       var responseData = json.decode(val.toString());
 //      print(responseData);
-      goodDetals = DetailsModel.fromJson(responseData);
-      print('商品名称是${goodDetals.detailData.detailInfo.goodsName}');
+      goodDetails = DetailsModel.fromJson(responseData);
+      print('商品名称是${goodDetails.detailData.detailInfo.goodsName}');
       //数据获取完了通知
       notifyListeners();
     });

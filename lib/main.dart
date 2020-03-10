@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/com/tiand/provide/cart_provide.dart';
 import 'com/tiand/pages/index_page.dart';
 import 'package:provide/provide.dart';
 import 'com/tiand/provide/counter.dart';
@@ -14,13 +15,16 @@ void main() {
   var childCategory = ChildCategoryProvide();
   var categoryGoods = CategoryGoodsProvide();
   var goodsDetail = GoodDetailProvide();
+  var cart = CartProvide();
   var providers = Providers();
 
   //注册 监听提供者
-  providers..provide(Provider<Counter>.value(counter))
-           ..provide(Provider<ChildCategoryProvide>.value(childCategory))
-           ..provide(Provider<CategoryGoodsProvide>.value(categoryGoods))
-           ..provide(Provider<GoodDetailProvide>.value(goodsDetail));
+  providers
+    ..provide(Provider<Counter>.value(counter))
+    ..provide(Provider<ChildCategoryProvide>.value(childCategory))
+    ..provide(Provider<CategoryGoodsProvide>.value(categoryGoods))
+    ..provide(Provider<GoodDetailProvide>.value(goodsDetail))
+    ..provide(Provider<CartProvide>.value(cart));
   runApp(ProviderNode(child: MyApp(),providers: providers,));
 }
 
