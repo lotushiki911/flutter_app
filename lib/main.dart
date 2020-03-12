@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/com/tiand/provide/cart_provide.dart';
+import 'package:flutter_app/com/tiand/provide/current_index_provide.dart';
 import 'com/tiand/pages/index_page.dart';
 import 'package:provide/provide.dart';
 import 'com/tiand/provide/counter.dart';
@@ -16,6 +17,7 @@ void main() {
   var categoryGoods = CategoryGoodsProvide();
   var goodsDetail = GoodDetailProvide();
   var cart = CartProvide();
+  var currentIndex = CurrentIndexProvide();
   var providers = Providers();
 
   //注册 监听提供者
@@ -24,7 +26,8 @@ void main() {
     ..provide(Provider<ChildCategoryProvide>.value(childCategory))
     ..provide(Provider<CategoryGoodsProvide>.value(categoryGoods))
     ..provide(Provider<GoodDetailProvide>.value(goodsDetail))
-    ..provide(Provider<CartProvide>.value(cart));
+    ..provide(Provider<CartProvide>.value(cart))
+    ..provide(Provider<CurrentIndexProvide>.value(currentIndex));
   runApp(ProviderNode(child: MyApp(),providers: providers,));
 }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/com/tiand/model/goods_detail_model.dart';
 import 'package:flutter_app/com/tiand/provide/cart_provide.dart';
+import 'package:flutter_app/com/tiand/provide/current_index_provide.dart';
 import 'package:provide/provide.dart';
 import '../../provide/goods_detail_provide.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,7 +24,11 @@ class DetailsBottom extends StatelessWidget {
       child: Row(
         children: <Widget>[
           InkWell(
-            onTap: (){},
+            onTap: (){
+              //改变底栏index值,然后直接pop弹出到购物车页面
+              Provide.value<CurrentIndexProvide>(context).changeIndex(2);
+              Navigator.pop(context);
+            },
             child: Container(
               width: ScreenUtil().setWidth(110),
               alignment: Alignment.center,
