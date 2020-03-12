@@ -274,7 +274,7 @@ class SwiperDiy extends StatelessWidget {
           // 获取静态资源
           return InkWell(
             onTap: (){
-              RoutersApplication.router.navigateTo(context, '/detail?id=ed675dda49e0445fa769f3d8020ab5e8');
+              RoutersApplication.router.navigateTo(context, '/detail?id=ed675dda49e0445fa769f3d8020ab5e7');
             },
             child: getNetWorkImageWithWH("${swiperDataList[index]['url']}",768,300),
           );

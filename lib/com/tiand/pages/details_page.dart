@@ -70,8 +70,10 @@ class DetailsPage extends StatelessWidget {
   //返回一个future 给FutureBuilder使用
   Future _getDetailinfo(BuildContext context) async{
 
-    if(goodsId == 'ed675dda49e0445fa769f3d8020ab5e8'){
-      goodsId == 'ed675dda49e0445fa769f3d8020ab5e8';
+    if(goodsId == 'ed675dda49e0445fa769f3d8020ab5e8') {
+      goodsId = 'ed675dda49e0445fa769f3d8020ab5e8';
+    }else if(goodsId == 'ed675dda49e0445fa769f3d8020ab5e7'){
+      goodsId = 'ed675dda49e0445fa769f3d8020ab5e7';
     }else{
       goodsId = 'ed675dda49e0445fa769f3d8020ab5e9';
     }

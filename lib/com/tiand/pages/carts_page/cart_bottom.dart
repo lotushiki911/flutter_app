@@ -49,7 +49,7 @@ class CartBottom extends StatelessWidget {
   Widget countArea(context){
     double totalAmount = Provide.value<CartProvide>(context).totalAmount;
     return Container(
-      width: ScreenUtil().setWidth(430),
+      width: ScreenUtil().setWidth(410),
       alignment: Alignment.centerRight,
       child: Column(
         children: <Widget>[
@@ -57,12 +57,12 @@ class CartBottom extends StatelessWidget {
             children: <Widget>[
               Container(
                 alignment: Alignment.centerRight,
-                width: ScreenUtil().setWidth(270),
+                width: ScreenUtil().setWidth(220),
                 child: Text('合计: ',style: TextStyle(fontSize: ScreenUtil().setSp(36)),),
               ),
               Container(
                 alignment: Alignment.centerLeft,
-                width: ScreenUtil().setWidth(130),
+                width: ScreenUtil().setWidth(180),
                 child: Text(
                   '￥:${totalAmount.toString()} ',
                   style: TextStyle(fontSize: ScreenUtil().setSp(30),color: Colors.red),),
@@ -70,7 +70,7 @@ class CartBottom extends StatelessWidget {
             ],
           ),
           Container(
-            width: ScreenUtil().setWidth(400),
+            width: ScreenUtil().setWidth(380),
             alignment: Alignment.centerRight,
             child: Text('满500免配送费: ',style: TextStyle(color:Colors.black38,fontSize: ScreenUtil().setSp(36)),),
           ),
@@ -84,7 +84,7 @@ class CartBottom extends StatelessWidget {
   Widget goButton(context){
     int totalProduct = Provide.value<CartProvide>(context).totalProduct;
     return Container(
-      width: ScreenUtil().setWidth(150),
+      width: ScreenUtil().setWidth(180),
       padding: EdgeInsets.only(left: 10),
       child: InkWell(
         onTap: (){},
