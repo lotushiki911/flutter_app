@@ -5,6 +5,10 @@ import '../model/cart_info_model.dart';
 class CartProvide with ChangeNotifier{
   String cartString ='[]';
   List<CartInfoModel> cartList = [];
+  //商品总价格
+  double totalAmount = 0;
+  //商品总数量
+  int totalProduct = 0;
 
   //保存购物车信息
   saveCart(goodsId,goodsName,count,price,image) async{
@@ -64,7 +68,15 @@ class CartProvide with ChangeNotifier{
     cartList = [];
     if(cartString != null){
       List<Map> tempList = (json.decode(cartString.toString()) as List).cast();
+      //首先初始化下 每次都从新算
+      totalAmount = 0;
+      totalProduct = 0;
       tempList.forEach((item){
+        //增加判断 如果选中则计算入中金额
+        if(item['isCheck']) {
+          totalAmount += item['price'] * item['count'];
+          totalProduct += item['count'];
+        }
         cartList.add(CartInfoModel.fromJson(item));
       });
     }

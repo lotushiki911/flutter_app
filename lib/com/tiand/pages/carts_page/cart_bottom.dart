@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/com/tiand/provide/cart_provide.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provide/provide.dart';
 
 
 class CartBottom extends StatelessWidget {
@@ -9,12 +11,16 @@ class CartBottom extends StatelessWidget {
       width: ScreenUtil().setWidth(765),
       padding: EdgeInsets.all(5.0),
       color: Colors.white,
-      child: Row(
-        children: <Widget>[
-          selectAllButton(),
-          countArea(),
-          goButton(),
-        ],
+      child: Provide<CartProvide>(
+        builder: (context,child,childCarts){
+          return Row(
+            children: <Widget>[
+              selectAllButton(),
+              countArea(context),
+              goButton(context),
+            ],
+          );
+        },
       ),
     );
   }
@@ -36,7 +42,8 @@ class CartBottom extends StatelessWidget {
   }
 
   //合计区域
-  Widget countArea(){
+  Widget countArea(context){
+    double totalAmount = Provide.value<CartProvide>(context).totalAmount;
     return Container(
       width: ScreenUtil().setWidth(430),
       alignment: Alignment.centerRight,
@@ -53,7 +60,7 @@ class CartBottom extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 width: ScreenUtil().setWidth(130),
                 child: Text(
-                  '￥:1999 ',
+                  '￥:${totalAmount.toString()} ',
                   style: TextStyle(fontSize: ScreenUtil().setSp(30),color: Colors.red),),
               ),
             ],
@@ -70,7 +77,8 @@ class CartBottom extends StatelessWidget {
   }
 
   //结算模块
-  Widget goButton(){
+  Widget goButton(context){
+    int totalProduct = Provide.value<CartProvide>(context).totalProduct;
     return Container(
       width: ScreenUtil().setWidth(150),
       padding: EdgeInsets.only(left: 10),
@@ -84,7 +92,7 @@ class CartBottom extends StatelessWidget {
             //圆角弧度
             borderRadius: BorderRadius.circular(3.0)
           ),
-          child: Text('结算(6)',style: TextStyle(color: Colors.white),),
+          child: Text('结算(${totalProduct})',style: TextStyle(color: Colors.white),),
         ),
       ),
     );
