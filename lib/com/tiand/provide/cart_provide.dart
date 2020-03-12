@@ -70,4 +70,27 @@ class CartProvide with ChangeNotifier{
     }
     notifyListeners();
   }
+
+  //删除单个购物车商品
+  deleteOneGoods(String goodsId) async{
+    SharedPreferences prefs = await  SharedPreferences.getInstance();
+    cartString = prefs.get('cartInfo');
+    List<Map> tempList = (json.decode(cartString) as List ).cast();
+    int tempIndex = 0;
+    int deleteIndex = 0;
+    //根据传入的goodsid去匹配
+    tempList.forEach((item){
+      if(item['goodsId'] == goodsId){
+        deleteIndex = tempIndex;
+      }
+      tempIndex++;
+    });
+    //删除对应的购物车数据
+    tempList.removeAt(deleteIndex);
+    //重新初始化购物车数据
+    cartString = json.encode(tempList).toString();
+    prefs.setString('cartInfo', cartString);
+    //刷新
+    getCartInfo();
+  }
 }
