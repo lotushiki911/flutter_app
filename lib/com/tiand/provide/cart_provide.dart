@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -137,5 +135,24 @@ class CartProvide with ChangeNotifier{
     //刷新
     await getCartInfo();
 
+  }
+
+  //点击全选按钮操作
+  changeAllCheckButtonState(bool isCheck)async{
+    //1 获取所有的数据
+    SharedPreferences prefs = await  SharedPreferences.getInstance();
+    cartString = prefs.get('cartInfo');
+    List<Map> tempList = (json.decode(cartString) as List ).cast();
+    //2将所有的数据的ischeck全部置为前台选择的值
+    List<Map> newList = [];
+    for(var item in tempList){
+      var newItem = item;
+      newItem['isCheck'] = isCheck;
+      newList.add(newItem);
+    }
+    //组合新列表到页面展示
+    cartString = json.encode(newList).toString();
+    prefs.setString('cartInfo', cartString);
+    await getCartInfo();
   }
 }

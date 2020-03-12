@@ -36,6 +36,7 @@ class CartBottom extends StatelessWidget {
             activeColor: Colors.pink,
             onChanged: (bool val){
 //              isAllCheck = val;
+              Provide.value<CartProvide>(context).changeAllCheckButtonState(val);
             },
           ),
           Text('全选'),
