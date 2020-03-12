@@ -11,7 +11,7 @@ class CartItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(cartItem);
+//    print(cartItem);
     return Container(
       margin: EdgeInsets.fromLTRB(5, 2, 5, 2),
       padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
@@ -26,7 +26,7 @@ class CartItem extends StatelessWidget {
       ),
       child: Row(
         children: <Widget>[
-          _cartCheckButton(),
+          _cartCheckButton(context,cartItem),
           _cartImage(cartItem),
           _cartGoodsName(cartItem),
           _cartPrice(cartItem),
@@ -36,11 +36,11 @@ class CartItem extends StatelessWidget {
   }
 
   //复选框
-  Widget _cartCheckButton(){
+  Widget _cartCheckButton(context,item){
     return Container(
       child: Checkbox(
         //需要改成动态的加载方式 状态控制
-        value: true,
+        value: item.isCheck,
         activeColor: Colors.pink,
         onChanged: (bool val){
         },

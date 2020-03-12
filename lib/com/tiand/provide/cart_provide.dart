@@ -32,7 +32,8 @@ class CartProvide with ChangeNotifier{
         'goodsName': goodsName,
         'count': count,
         'price': price,
-        'image': image
+        'image': image,
+        'isCheck': true
       };
       tempList.add(newGoods);
       //变为CartInfoModel对象
