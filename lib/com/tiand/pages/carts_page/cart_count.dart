@@ -29,7 +29,7 @@ class CartCount extends StatelessWidget {
   Widget _centerBottom(){
     return Container(
       width: ScreenUtil().setWidth(60),
-//      height: ScreenUtil().setHeight(35),
+      height: ScreenUtil().setHeight(40),
       alignment: Alignment.center,
       color: Colors.white,
       child: Text('${cartItem.count}'),
@@ -44,7 +44,7 @@ class CartCount extends StatelessWidget {
       },
       child: Container(
         width: ScreenUtil().setWidth(40),
-//        height: ScreenUtil().setHeight(35),
+        height: ScreenUtil().setHeight(40),
 //        color: Colors.white,
         alignment: Alignment.center,
         decoration: BoxDecoration(
@@ -69,7 +69,7 @@ class CartCount extends StatelessWidget {
       },
       child: Container(
         width: ScreenUtil().setWidth(40),
-//        height: ScreenUtil().setHeight(35),
+        height: ScreenUtil().setHeight(40),
 //        color: Colors.white,
         alignment: Alignment.center,
         decoration: BoxDecoration(
