@@ -103,6 +103,32 @@ class CartProvide with ChangeNotifier{
     cartString = json.encode(tempList).toString();
     prefs.setString('cartInfo', cartString);
     //刷新
-    getCartInfo();
+    await getCartInfo();
+  }
+
+  //购物车页面点击复选框时改变购物车信息和状态
+  changeCheckState(CartInfoModel cartInfoModel) async{
+    SharedPreferences prefs = await  SharedPreferences.getInstance();
+    cartString = prefs.get('cartInfo');
+    List<Map> tempList = (json.decode(cartString) as List ).cast();
+    //临时的索引
+    int tempIndex = 0;
+    //待更换的索引
+    int changeIndex = 0;
+    //如果匹配到了  获取到改变数据
+    tempList.forEach((item){
+      if(item['goodsId'] == cartInfoModel.goodsId){
+        changeIndex = tempIndex;
+      }
+      tempIndex ++;
+    });
+    //改变选定的数据
+    tempList[changeIndex] = cartInfoModel.toJson();
+    //重新初始化购物车数据
+    cartString = json.encode(tempList).toString();
+    prefs.setString('cartInfo', cartString);
+    //刷新
+    await getCartInfo();
+
   }
 }

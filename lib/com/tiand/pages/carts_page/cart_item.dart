@@ -45,6 +45,9 @@ class CartItem extends StatelessWidget {
         value: item.isCheck,
         activeColor: Colors.pink,
         onChanged: (bool val){
+          item.isCheck = val;//自动
+          //使用provide自动改变状态
+          Provide.value<CartProvide>(context).changeCheckState(item);
         },
       ),
     );
