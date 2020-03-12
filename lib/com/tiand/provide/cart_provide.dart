@@ -155,4 +155,36 @@ class CartProvide with ChangeNotifier{
     prefs.setString('cartInfo', cartString);
     await getCartInfo();
   }
+
+  //点击加减进行数据更新操作
+  changeProductNum(int type,var cartItem)async{
+    SharedPreferences prefs = await  SharedPreferences.getInstance();
+    cartString = prefs.get('cartInfo');
+    List<Map> tempList = (json.decode(cartString) as List ).cast();
+    int currentIndex = 0;
+    int tempIndex = 0;
+    tempList.forEach((item){
+      if(item['goodsId'] == cartItem.goodsId ){
+        currentIndex = tempIndex;
+      }
+      tempIndex ++;
+    });
+    //减方法
+    if(type == 1){
+      if(cartItem.count > 1){
+        //删除对应的购物车数据
+        cartItem.count --;
+      }
+    }else{
+      //否则增加
+      cartItem.count ++;
+    }
+    //改变选定的数据
+    tempList[currentIndex] = cartItem.toJson();
+    //重新初始化购物车数据
+    cartString = json.encode(tempList).toString();
+    prefs.setString('cartInfo', cartString);
+    //刷新
+    await getCartInfo();
+  }
 }
