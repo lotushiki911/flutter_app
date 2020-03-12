@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,6 +11,8 @@ class CartProvide with ChangeNotifier{
   double totalAmount = 0;
   //商品总数量
   int totalProduct = 0;
+  //全选框判断
+  bool isAllCheck = true;
 
   //保存购物车信息
   saveCart(goodsId,goodsName,count,price,image) async{
@@ -71,11 +75,14 @@ class CartProvide with ChangeNotifier{
       //首先初始化下 每次都从新算
       totalAmount = 0;
       totalProduct = 0;
+      isAllCheck = true;
       tempList.forEach((item){
         //增加判断 如果选中则计算入中金额
         if(item['isCheck']) {
           totalAmount += item['price'] * item['count'];
           totalProduct += item['count'];
+        }else{
+          isAllCheck = false;
         }
         cartList.add(CartInfoModel.fromJson(item));
       });
