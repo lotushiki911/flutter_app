@@ -3,6 +3,8 @@ import 'package:flutter_app/com/tiand/config/service_url.dart';
 import 'package:flutter_app/com/tiand/model/cart_info_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'cart_count.dart';
+
 class CartItem extends StatelessWidget {
   final CartInfoModel cartItem;
   CartItem(this.cartItem);
@@ -68,7 +70,7 @@ class CartItem extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Text(item.goodsName),
-          Text(item.count.toString())
+          CartCount(),
         ],
       )
     );
