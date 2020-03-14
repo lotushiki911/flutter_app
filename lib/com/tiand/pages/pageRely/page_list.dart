@@ -25,10 +25,10 @@ final List<BottomNavigationBarItem> bottomTabList = [
       icon: Icon(CupertinoIcons.shopping_cart),
       title: Text('购物车')
   ),
-  BottomNavigationBarItem(
-      icon: Icon(CupertinoIcons.info),
-      title: Text('快讯')
-  ),
+//  BottomNavigationBarItem(
+//      icon: Icon(CupertinoIcons.info),
+//      title: Text('快讯')
+//  ),
   BottomNavigationBarItem(
       icon: Icon(CupertinoIcons.profile_circled),
       title: Text('我的')
@@ -39,7 +39,7 @@ final List<Widget> tabBodyList = [
   HomePage(),
   CategoryPage(),
   CartPage(),
-  NewsPage(),
+//  NewsPage(),
   MemberPage()
 ];
 

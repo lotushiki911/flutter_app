@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin{
   Widget build(BuildContext context) {
     String url = servicePath['homePageJumu'];
       return Scaffold(
-        appBar: AppBar(title:Text('买买买')),
+        appBar: AppBar(title:Text('呵呵买买买')),
         body: FutureBuilder(
           ///snapshot就是_calculation在时间轴上执行过程的状态快照
           builder: (context,snapshot){

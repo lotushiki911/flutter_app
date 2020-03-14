@@ -23,21 +23,51 @@ class DetailsBottom extends StatelessWidget {
       color: Colors.white,
       child: Row(
         children: <Widget>[
-          InkWell(
-            onTap: (){
-              //改变底栏index值,然后直接pop弹出到购物车页面
-              Provide.value<CurrentIndexProvide>(context).changeIndex(2);
-              Navigator.pop(context);
-            },
-            child: Container(
-              width: ScreenUtil().setWidth(110),
-              alignment: Alignment.center,
-              child: Icon(
-                Icons.shopping_cart,
-                size: 35,
-                color: Colors.red,
+          Stack(
+            children: <Widget>[
+              InkWell(
+                onTap: (){
+                  //改变底栏index值,然后直接pop弹出到购物车页面
+                  Provide.value<CurrentIndexProvide>(context).changeIndex(2);
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  width: ScreenUtil().setWidth(110),
+                  alignment: Alignment.center,
+                  child: Icon(
+                    Icons.shopping_cart,
+                    size: 35,
+                    color: Colors.red,
+                  ),
+                ),
               ),
-            ),
+              //添加一个气泡用来显示 一共多少数量
+              Provide<CartProvide>(
+                builder: (context,child,val){
+                  int goodsCount = Provide.value<CartProvide>(context).totalProduct;
+                  return Positioned(
+                    top: 0,
+                    left: 10,
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(6, 3, 6, 3),
+                      //定义一个圆
+                      decoration: BoxDecoration(
+                        color: Colors.pink,
+                        border: Border.all(width: 2,color: Colors.white),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                          '${goodsCount}',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: ScreenUtil().setSp(22),
+                          ),
+                      ),
+                    ),
+                  );
+                },
+              )
+            ],
           ),
           InkWell(
             onTap: () async{
