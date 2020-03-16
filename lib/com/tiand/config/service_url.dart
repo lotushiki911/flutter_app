@@ -1,9 +1,9 @@
 //主url
-const serviceUrl = 'http://10.0.2.2:5000/';
-const serviceUrlStatic = 'http://10.0.2.2:5000/static';
+//const serviceUrl = 'http://10.0.2.2:5000/';
+//const serviceUrlStatic = 'http://10.0.2.2:5000/static';
 
-//const serviceUrl = 'http://47.103.208.185:8088/';
-//const serviceUrlStatic = 'http://47.103.208.185:8088/static';
+const serviceUrl = 'http://47.103.208.185:8088/';
+const serviceUrlStatic = 'http://47.103.208.185:8088/static';
 
 //具体接口
 const servicePath = {

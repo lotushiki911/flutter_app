@@ -1,4 +1,5 @@
 //保存所有跟后台请求相关的方法
+import 'package:amap_map_fluttify/amap_map_fluttify.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_app/advance/main_bezier_base.dart';
 import 'dart:async';
@@ -53,6 +54,8 @@ Future gerDoubanData() async {
 //获取首页轮播图片
 Future getHomePageImg(String url,{formData}) async{
   try {
+
+
     //print('开始获取首页数据');
     Dio dio = Dio();
     //发送时候的请求类型  这里使用表单的模式向后端传送数据
@@ -67,6 +70,12 @@ Future getHomePageImg(String url,{formData}) async{
           data: formData
       );
     }
+
+    /// 初始化(0.17.0开始可以不用配置AndroidManifest.xml): iosKey: '7a04506d15fdb7585707f7091d715ef4',
+    await AmapService.init( androidKey: 'f5f3f55619e05bd31b19b64e6c2cc8ea');
+    /// 关闭Fluttify引擎的日志
+    await enableFluttifyLog(false); // 关闭log
+
     if (response.statusCode == 200) {
       return response.data;
     } else {

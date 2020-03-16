@@ -9,6 +9,9 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="呵呵买"
         android:icon="@mipmap/ic_launcher">
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="f5f3f55619e05bd31b19b64e6c2cc8ea" />
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
