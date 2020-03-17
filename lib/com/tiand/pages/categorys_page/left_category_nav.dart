@@ -37,7 +37,6 @@ class LeftCategoryNav extends StatelessWidget {
     bool isClick = false;
     //index 原值  对比点击值
     int clickIndex = Provider.of<CategoryProvide>(context).leftIndex;
-    print('主类选择了第${clickIndex}个');
     isClick = index == clickIndex?true : false;
     return InkWell(
       onTap: (){
@@ -47,7 +46,6 @@ class LeftCategoryNav extends StatelessWidget {
         List<SubProductSet> childList = productData.subProductSet;
         String categoryId = productData.productCategoryId;
         Provider.of<CategoryProvide>(context,listen: false).getChildCategory(childList,categoryId);
-        print('大类是${categoryId}');
         //要重新获取下商品列表数据
         print('大类是${categoryId},小类是${''}');
         //传参
