@@ -7,7 +7,7 @@ import 'package:provide/provide.dart';
 import '../service/service_method.dart';
 import '../provide/counter.dart';
 //import 'package:amap_base/amap_base.dart';
-import 'package:amap_map_fluttify/amap_map_fluttify.dart';
+//import 'package:amap_map_fluttify/amap_map_fluttify.dart';
 import 'package:decorated_flutter/decorated_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 class NewsPage extends StatefulWidget {

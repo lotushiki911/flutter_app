@@ -1,4 +1,4 @@
-import 'package:amap_map_fluttify/amap_map_fluttify.dart';
+//import 'package:amap_map_fluttify/amap_map_fluttify.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/com/tiand/provide/cart_provide.dart';
 import 'package:flutter_app/com/tiand/provide/current_index_provide.dart';
