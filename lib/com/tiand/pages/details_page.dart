@@ -16,7 +16,6 @@ class DetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-//    _getDetailinfo(context);
     //获取数据 从provide中
     return Scaffold(
       appBar: AppBar(

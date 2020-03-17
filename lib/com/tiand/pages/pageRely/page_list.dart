@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../home_page.dart';
 import '../member_page.dart';
 import '../cart_page.dart';
-import '../category_page.dart';
+import '../category_page_base.dart';
 import '../news_page.dart';
 
 //首页底部导航栏保存列表  每一个子项包含一个图标和文字

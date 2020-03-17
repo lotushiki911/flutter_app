@@ -39,7 +39,7 @@ dependencies:
   # 状态管理
 #  provide: ^1.0.2
   provider: ^4.0.4
-  # 亲提示插件
+  # 轻提示插件
   fluttertoast: ^3.1.2
   # 企业级路由
   fluro: ^1.5.2

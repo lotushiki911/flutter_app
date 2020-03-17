@@ -4,8 +4,7 @@ import 'package:flutter_app/com/tiand/provide/cart_provide.dart';
 import 'package:flutter_app/com/tiand/provide/current_index_provide.dart';
 import 'package:provider/provider.dart';
 import 'com/tiand/pages/index_page.dart';
-//import 'package:provide/provide.dart';
-import 'com/tiand/provide/counter.dart';
+import 'com/tiand/provide/category_provide.dart';
 import 'com/tiand/provide/category_goods_provide.dart';
 import 'com/tiand/provide/child_category_provide.dart';
 import 'com/tiand/provide/goods_detail_provide.dart';
@@ -23,6 +22,7 @@ void main() => runApp(
       ChangeNotifierProvider.value(value: GoodDetailProvide()),
       ChangeNotifierProvider.value(value: ChildCategoryProvide()),
       ChangeNotifierProvider.value(value: CategoryGoodsProvide()),
+      ChangeNotifierProvider.value(value: CategoryProvide()),
     ],
     child: MyApp(),
   )

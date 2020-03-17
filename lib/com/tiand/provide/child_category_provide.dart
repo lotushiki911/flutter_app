@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_app/com/tiand/model/category_goods_model.dart';
+import 'package:flutter_app/com/tiand/service/service_method.dart';
 import '../model/product_category_model.dart';
 
 class ChildCategoryProvide with ChangeNotifier{
@@ -16,6 +20,9 @@ class ChildCategoryProvide with ChangeNotifier{
   int get page => _page;
   String get noMoreText => _noMoreText;
 
+  //显示大类信息
+  List<ProductData> _leftList = [];
+  List<ProductData> get leftList => _leftList;
   //绑定一个待改变状态数据
   getChildCategory(List<SubProductSet> list,cId){
     //每次切换大类都要清0
@@ -51,5 +58,17 @@ class ChildCategoryProvide with ChangeNotifier{
   changeNoMore(String text){
     _noMoreText = text;
     notifyListeners();
+  }
+
+
+  //获取类别数据
+  void getCateGory() async{
+    print('获取分类页信息');
+    await requestForm('categoryPageInfo').then((val){
+      var data = json.decode(val.toString());
+      _leftList = ProductCategory.fromJson(data).productData;
+      //将后台获取的大类数据  在页面动态显示
+      notifyListeners();
+    });
   }
 }
