@@ -7,7 +7,8 @@ import 'package:flutter_app/com/tiand/provide/category_goods_provide.dart';
 import 'package:flutter_app/com/tiand/routers/routers_application.dart';
 import 'package:flutter_app/com/tiand/service/service_method.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provide/provide.dart';
+import 'package:provider/provider.dart';
+//import 'package:provide/provide.dart';
 import '../model/product_category_model.dart';
 import '../provide/child_category_provide.dart';
 import '../model/category_goods_model.dart';
@@ -104,7 +105,7 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
         //绑定provide进行左右侧导航栏联动改变
         List<SubProductSet> childList = leftList[index].subProductSet;
         String categoryId = leftList[index].productCategoryId;
-        Provide.value<ChildCategoryProvide>(context).getChildCategory(childList,categoryId);
+        Provider.of<ChildCategoryProvide>(context,listen: false).getChildCategory(childList,categoryId);
         print('大类是${categoryId}');
         _get_goods_list(categoryId:categoryId);
 //        Provide.value<CategoryGoodsProvide>(context).getCategoryGoods(goodsList);
@@ -148,7 +149,7 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
         leftList = productCategory.productData;
       });
       //传递第一个值 让右侧的导航栏有显示
-      Provide.value<ChildCategoryProvide>(context)
+      Provider.of<ChildCategoryProvide>(context,listen: false)
           .getChildCategory(leftList[0].subProductSet,leftList[0].productCategoryId);
     });
   }
@@ -174,7 +175,7 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
         print(categoryGoodsModel.goodsData[0].presentPrice.toString());
         print(categoryGoodsModel.goodsData[0].image);
       }
-      Provide.value<CategoryGoodsProvide>(context).getCategoryGoods(categoryGoodsModel.goodsData);
+      Provider.of<CategoryGoodsProvide>(context,listen: false).getCategoryGoods(categoryGoodsModel.goodsData);
     });
   }
 }
@@ -191,8 +192,8 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
   @override
   Widget build(BuildContext context) {
     //引入状态改变数据
-    return Provide<ChildCategoryProvide>(
-      builder: (context,child,childCategory){
+    return Consumer<ChildCategoryProvide>(
+      builder: (context,childCategory,_){
         return Container(
           //右侧的模块
           height: ScreenUtil().setHeight(80),
@@ -225,12 +226,13 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
   Widget _rightInkWell(SubProductSet item, int index,){
     bool isClick = false;
     //index 原值  对比点击值
-    int clickIndex = Provide.value<ChildCategoryProvide>(context).childIndex;
+    int clickIndex = Provider.of<ChildCategoryProvide>(context).childIndex;
+    print('选择了第${clickIndex}个');
     isClick = index == clickIndex?true : false;
     return InkWell(
       onTap: (){
           //点击改变右侧高亮
-        Provide.value<ChildCategoryProvide>(context).changeChildIndex(index,item.subId);
+        Provider.of<ChildCategoryProvide>(context,listen: false).changeChildIndex(index,item.subId);
 
         _get_goods_list(subId :item.subId);
       },
@@ -250,7 +252,7 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
 //接口获取商品列表
   void _get_goods_list({String subId}) {
 
-    String categoryId = Provide.value<ChildCategoryProvide>(context).categoryId;
+    String categoryId = Provider.of<ChildCategoryProvide>(context).categoryId;
     print('大类是${categoryId},小类是${subId}');
     //传参
     var data={
@@ -268,9 +270,9 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
       print("--------获取商品列表----->");
       if(categoryGoodsModel.goodsData == null){
         print('没有查询到列表数据');
-        Provide.value<CategoryGoodsProvide>(context).getCategoryGoods([]);
+        Provider.of<CategoryGoodsProvide>(context,listen: false).getCategoryGoods([]);
       }else{
-        Provide.value<CategoryGoodsProvide>(context).getCategoryGoods(categoryGoodsModel.goodsData);
+        Provider.of<CategoryGoodsProvide>(context,listen: false).getCategoryGoods(categoryGoodsModel.goodsData);
         if(categoryGoodsModel.goodsData.length > 0) {
           print(categoryGoodsModel.goodsData[0].goodsName);
           print(categoryGoodsModel.goodsData[0].presentPrice.toString());
@@ -304,8 +306,8 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
 
   @override
   Widget build(BuildContext context) {
-    return Provide<CategoryGoodsProvide>(
-        builder: (context, child, categoryProvide) {
+    return Consumer<CategoryGoodsProvide>(
+        builder: (context, categoryProvide, _) {
           //增加控制器控制 如果切换了小类或者大类 调转到列表的最上面
           try{
             scrollController.jumpTo(0.0);
@@ -357,12 +359,13 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
 
 //接口获取商品列表
   void _getMoreList() {
+    final cCategory = Provider.of<ChildCategoryProvide>(context);
 
-    String categoryId = Provide.value<ChildCategoryProvide>(context).categoryId;
-    String subId = Provide.value<ChildCategoryProvide>(context).subId;
-    int page = Provide.value<ChildCategoryProvide>(context).page;
+    String categoryId = cCategory.categoryId;
+    String subId = cCategory.subId;
+    int page = cCategory.page;
     if(page == 1){
-      Provide.value<ChildCategoryProvide>(context).addPage();
+      cCategory.addPage();
       page ++ ;
     }
     print('大类是${categoryId},小类是${subId},当前分页数:${page}');
@@ -397,17 +400,17 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
           //字体大小
           fontSize: 16
         );
-        Provide.value<ChildCategoryProvide>(context).changeNoMore('没有更多数据了');
+        cCategory.changeNoMore('没有更多数据了');
       }else{
         //每次上拉之后,更新当前的list 需要把新查询出来的list追加到之前的list中
-        Provide.value<CategoryGoodsProvide>(context).getCategoryGoodsMore(categoryGoodsModel.goodsData);
+        Provider.of<CategoryGoodsProvide>(context).getCategoryGoodsMore(categoryGoodsModel.goodsData);
         if(categoryGoodsModel.goodsData.length > 0) {
           print(categoryGoodsModel.goodsData[0].goodsName);
           print(categoryGoodsModel.goodsData[0].presentPrice.toString());
           print(categoryGoodsModel.goodsData[0].image);
         }
         //每次上拉都需要把page 加一 以便加载新的数据
-        Provide.value<ChildCategoryProvide>(context).addPage();
+        Provider.of<ChildCategoryProvide>(context).addPage();
       }
 
 

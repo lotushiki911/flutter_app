@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/com/tiand/provide/cart_provide.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provide/provide.dart';
+import 'package:provider/provider.dart';
+//import 'package:provide/provide.dart';
 
 
 class CartBottom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final cartProvide =  Provider.of<CartProvide>(context);
     return Container(
       width: ScreenUtil().setWidth(765),
       padding: EdgeInsets.all(5.0),
       color: Colors.white,
-      child: Provide<CartProvide>(
-        builder: (context,child,childCarts){
+      child: Consumer<CartProvide>(
+        builder: (context,childCarts,_){
           return Row(
             children: <Widget>[
-              selectAllButton(context),
+              selectAllButton(cartProvide),
               countArea(context),
               goButton(context),
             ],
@@ -26,8 +28,8 @@ class CartBottom extends StatelessWidget {
   }
 
   //全选按钮
-  Widget selectAllButton(context){
-    bool isAllCheck = Provide.value<CartProvide>(context).isAllCheck;
+  Widget selectAllButton(cartProvide){
+    bool isAllCheck = cartProvide.isAllCheck;
     return Container(
       child: Row(
         children: <Widget>[
@@ -36,7 +38,7 @@ class CartBottom extends StatelessWidget {
             activeColor: Colors.pink,
             onChanged: (bool val){
 //              isAllCheck = val;
-              Provide.value<CartProvide>(context).changeAllCheckButtonState(val);
+              cartProvide.changeAllCheckButtonState(val);
             },
           ),
           Text('全选'),
@@ -47,7 +49,7 @@ class CartBottom extends StatelessWidget {
 
   //合计区域
   Widget countArea(context){
-    double totalAmount = Provide.value<CartProvide>(context).totalAmount;
+    double totalAmount = Provider.of<CartProvide>(context).totalAmount;
     return Container(
       width: ScreenUtil().setWidth(410),
       alignment: Alignment.centerRight,
@@ -82,7 +84,7 @@ class CartBottom extends StatelessWidget {
 
   //结算模块
   Widget goButton(context){
-    int totalProduct = Provide.value<CartProvide>(context).totalProduct;
+    int totalProduct = Provider.of<CartProvide>(context).totalProduct;
     return Container(
       width: ScreenUtil().setWidth(180),
       padding: EdgeInsets.only(left: 10),

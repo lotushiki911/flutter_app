@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/com/tiand/model/goods_detail_model.dart';
 import 'package:flutter_app/com/tiand/provide/cart_provide.dart';
 import 'package:flutter_app/com/tiand/provide/current_index_provide.dart';
-import 'package:provide/provide.dart';
+import 'package:provider/provider.dart';
+//import 'package:provide/provide.dart';
 import '../../provide/goods_detail_provide.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DetailsBottom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    DetailInfo detailInfo = Provide.value<GoodDetailProvide>(context).goodDetails.detailData.detailInfo;
+    final goodsProvide = Provider.of<GoodDetailProvide>(context);
+    DetailInfo detailInfo = goodsProvide.goodDetails.detailData.detailInfo;
     print("detailInfo:${detailInfo}");
     //组合 cartProvide中数据
     var goodsId = detailInfo.goodsId;
@@ -28,7 +30,7 @@ class DetailsBottom extends StatelessWidget {
               InkWell(
                 onTap: (){
                   //改变底栏index值,然后直接pop弹出到购物车页面
-                  Provide.value<CurrentIndexProvide>(context).changeIndex(2);
+                  Provider.of<CurrentIndexProvide>(context,listen: false).changeIndex(2);
                   Navigator.pop(context);
                 },
                 child: Container(
@@ -42,9 +44,9 @@ class DetailsBottom extends StatelessWidget {
                 ),
               ),
               //添加一个气泡用来显示 一共多少数量
-              Provide<CartProvide>(
-                builder: (context,child,val){
-                  int goodsCount = Provide.value<CartProvide>(context).totalProduct;
+              Consumer<CartProvide>(
+                builder: (context,val,_){
+                  int goodsCount = val.totalProduct;
                   return Positioned(
                     top: 0,
                     left: 10,
@@ -71,7 +73,7 @@ class DetailsBottom extends StatelessWidget {
           ),
           InkWell(
             onTap: () async{
-              await Provide.value<CartProvide>(context).saveCart(goodsId, goodsName, count, price, image);
+              await Provider.of<CartProvide>(context,listen: false).saveCart(goodsId, goodsName, count, price, image);
             },
             child: Container(
               color: Colors.green,
@@ -88,7 +90,7 @@ class DetailsBottom extends StatelessWidget {
           ),
           InkWell(
             onTap: () async{
-              await Provide.value<CartProvide>(context).remove();
+              await Provider.of<CartProvide>(context,listen: false).remove();
             },
             child: Container(
                 color: Colors.red,

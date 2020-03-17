@@ -2,8 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/com/tiand/provide/cart_provide.dart';
 import 'package:flutter_app/com/tiand/provide/current_index_provide.dart';
+import 'package:provider/provider.dart';
 import 'com/tiand/pages/index_page.dart';
-import 'package:provide/provide.dart';
+//import 'package:provide/provide.dart';
 import 'com/tiand/provide/counter.dart';
 import 'com/tiand/provide/category_goods_provide.dart';
 import 'com/tiand/provide/child_category_provide.dart';
@@ -12,26 +13,20 @@ import 'package:fluro/fluro.dart';
 import './com/tiand/routers/routers.dart';
 import './com/tiand/routers/routers_application.dart';
 
-void main() {
-  var counter = Counter();
-  var childCategory = ChildCategoryProvide();
-  var categoryGoods = CategoryGoodsProvide();
-  var goodsDetail = GoodDetailProvide();
-  var cart = CartProvide();
-  var currentIndex = CurrentIndexProvide();
-  var providers = Providers();
-
-  //注册 监听提供者
-  providers
-    ..provide(Provider<Counter>.value(counter))
-    ..provide(Provider<ChildCategoryProvide>.value(childCategory))
-    ..provide(Provider<CategoryGoodsProvide>.value(categoryGoods))
-    ..provide(Provider<GoodDetailProvide>.value(goodsDetail))
-    ..provide(Provider<CartProvide>.value(cart))
-    ..provide(Provider<CurrentIndexProvide>.value(currentIndex));
-
-  runApp(ProviderNode(child: MyApp(),providers: providers,));
-}
+void main() => runApp(
+  //provide4.0注册
+  MultiProvider(
+    providers: [
+      //购物车provider注册
+      ChangeNotifierProvider.value(value: CartProvide()),
+      ChangeNotifierProvider.value(value: CurrentIndexProvide()),
+      ChangeNotifierProvider.value(value: GoodDetailProvide()),
+      ChangeNotifierProvider.value(value: ChildCategoryProvide()),
+      ChangeNotifierProvider.value(value: CategoryGoodsProvide()),
+    ],
+    child: MyApp(),
+  )
+);
 
 class MyApp extends StatelessWidget {
   @override

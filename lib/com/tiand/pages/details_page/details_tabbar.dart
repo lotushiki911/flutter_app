@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/com/tiand/model/goods_detail_model.dart';
-import 'package:provide/provide.dart';
+import 'package:provider/provider.dart';
+//import 'package:provide/provide.dart';
 import '../../provide/goods_detail_provide.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DetailsTabBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Provide<GoodDetailProvide>(
-      builder: (context,child,val){
+    return Consumer<GoodDetailProvide>(
+      builder: (context,val,_){
         var left = val.isLeft;
         var right = val.isRight;
         return Container(
@@ -29,7 +30,7 @@ class DetailsTabBar extends StatelessWidget {
     return InkWell(
       //点击切换左右tabbar
       onTap: (){
-        Provide.value<GoodDetailProvide>(context).changeLeftOrRight('left');
+        Provider.of<GoodDetailProvide>(context).changeLeftOrRight('left');
       },
       child: Container(
         margin: EdgeInsets.only(left: 15),
@@ -60,7 +61,7 @@ class DetailsTabBar extends StatelessWidget {
     return InkWell(
       //点击切换左右tabbar
       onTap: (){
-        Provide.value<GoodDetailProvide>(context).changeLeftOrRight('right');
+        Provider.of<GoodDetailProvide>(context).changeLeftOrRight('right');
       },
       child: Container(
         padding: EdgeInsets.all(10.0),

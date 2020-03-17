@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/com/tiand/model/goods_detail_model.dart';
-import 'package:provide/provide.dart';
+import 'package:provider/provider.dart';
+//import 'package:provide/provide.dart';
 import '../../provide/goods_detail_provide.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -8,9 +9,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class DetailPriceArea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Provide<GoodDetailProvide>(
-        builder: (context, child, val) {
-          DetailInfo detailInfo = Provide.value<GoodDetailProvide>(context).goodDetails.detailData.detailInfo;
+    return Consumer<GoodDetailProvide>(
+        builder: (context, val, _) {
+          DetailInfo detailInfo = val.goodDetails.detailData.detailInfo;
           if (detailInfo != null) {
             return Container(
               child: Row(

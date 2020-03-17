@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/com/tiand/model/goods_detail_model.dart';
-import 'package:provide/provide.dart';
+//import 'package:provide/provide.dart';
 import '../../provide/goods_detail_provide.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

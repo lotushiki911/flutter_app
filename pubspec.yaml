@@ -37,7 +37,8 @@ dependencies:
   # 上拉下滑插件
   flutter_easyrefresh: ^1.2.7
   # 状态管理
-  provide: ^1.0.2
+#  provide: ^1.0.2
+  provider: ^4.0.4
   # 亲提示插件
   fluttertoast: ^3.1.2
   # 企业级路由
@@ -50,7 +51,7 @@ dependencies:
 
   # 高德地图组件
   #  amap_base: ^0.3.5
-  amap_map_fluttify: ^0.18.0
+#  amap_map_fluttify: ^0.18.0
   permission_handler: ^4.3.0
   decorated_flutter: ^0.11.0+1
 

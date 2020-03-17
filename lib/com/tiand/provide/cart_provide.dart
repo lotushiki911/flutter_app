@@ -3,39 +3,45 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/cart_info_model.dart';
 class CartProvide with ChangeNotifier{
-  String cartString ='[]';
-  List<CartInfoModel> cartList = [];
+  String _cartString ='[]';
+  List<CartInfoModel> _cartList = [];
   //商品总价格
-  double totalAmount = 0;
+  double _totalAmount = 0;
   //商品总数量
-  int totalProduct = 0;
+  int _totalProduct = 0;
   //全选框判断
-  bool isAllCheck = true;
+  bool _isAllCheck = true;
+
+  String get cartString => _cartString;
+  List<CartInfoModel> get cartList => _cartList;
+  double get totalAmount => _totalAmount;
+  int get totalProduct => _totalProduct;
+  bool get isAllCheck => _isAllCheck;
 
   //保存购物车信息
   saveCart(goodsId,goodsName,count,price,image) async{
       //获取保存的参数
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      cartString = prefs.getString('cartInfo');
+      _cartString = prefs.getString('cartInfo');
       //如果数据存在则进行格式化
-      var temp =cartString==null?[]:json.decode(cartString.toString());
+      var temp =_cartString==null?[]:json.decode(_cartString.toString());
       List<Map> tempList = (temp as List).cast();
       int tempIndex = 0;
       bool isHave = false;
-      totalAmount = 0;
-      totalProduct = 0;
+      _totalAmount = 0;
+      _totalProduct = 0;
     //如果数据存在则 对数据数量增加
     tempList.forEach((item){
       if(item['goodsId'] == goodsId){
         tempList[tempIndex]['count'] = item['count']+1;
         tempList[tempIndex]['isCheck'] = true;
-        cartList[tempIndex].isCheck = true;
-        cartList[tempIndex].count++;
+        _cartList[tempIndex].isCheck = true;
+        _cartList[tempIndex].count++;
         isHave = true;
       }
       if(item['isCheck']) {
-        totalAmount += cartList[tempIndex].price * cartList[tempIndex].count;
-        totalProduct += cartList[tempIndex].count;
+        _totalAmount += _cartList[tempIndex].price * _cartList[tempIndex].count;
+        _totalProduct += _cartList[tempIndex].count;
       }
       tempIndex ++ ;
     });
@@ -51,16 +57,16 @@ class CartProvide with ChangeNotifier{
       };
       tempList.add(newGoods);
       //变为CartInfoModel对象
-      cartList.add(CartInfoModel.fromJson(newGoods));
+      _cartList.add(CartInfoModel.fromJson(newGoods));
 
-      totalAmount += count * price;
-      totalProduct += count;
+      _totalAmount += count * price;
+      _totalProduct += count;
     }
 
     //反持久化解析并保存
-    cartString = json.encode(tempList).toString();
+    _cartString = json.encode(tempList).toString();
 
-    prefs.setString('cartInfo', cartString);
+    prefs.setString('cartInfo', _cartString);
     print('添加购物车成功:${tempList.toString()}');
     notifyListeners();
   }
@@ -69,7 +75,7 @@ class CartProvide with ChangeNotifier{
   remove() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('cartInfo');
-    cartList = [];
+    _cartList = [];
     print('清空了购物车');
     notifyListeners();
   }
@@ -77,24 +83,26 @@ class CartProvide with ChangeNotifier{
   //查询方法
   getCartInfo() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    cartString = prefs.getString('cartInfo');
-    cartList = [];
-    if(cartString != null){
-      List<Map> tempList = (json.decode(cartString.toString()) as List).cast();
+    _cartString = prefs.getString('cartInfo');
+    _cartList = [];
+    if(_cartString != null){
+      List<Map> tempList = (json.decode(_cartString.toString()) as List).cast();
       //首先初始化下 每次都从新算
-      totalAmount = 0;
-      totalProduct = 0;
-      isAllCheck = true;
+      _totalAmount = 0;
+      _totalProduct = 0;
+      _isAllCheck = true;
       tempList.forEach((item){
         //增加判断 如果选中则计算入中金额
         if(item['isCheck']) {
-          totalAmount += item['price'] * item['count'];
-          totalProduct += item['count'];
+          _totalAmount += item['price'] * item['count'];
+          _totalProduct += item['count'];
         }else{
-          isAllCheck = false;
+          _isAllCheck = false;
         }
-        cartList.add(CartInfoModel.fromJson(item));
+        _cartList.add(CartInfoModel.fromJson(item));
       });
+
+      print('总额是:${_totalAmount}');
     }
     notifyListeners();
   }
@@ -102,8 +110,8 @@ class CartProvide with ChangeNotifier{
   //删除单个购物车商品
   deleteOneGoods(String goodsId) async{
     SharedPreferences prefs = await  SharedPreferences.getInstance();
-    cartString = prefs.get('cartInfo');
-    List<Map> tempList = (json.decode(cartString) as List ).cast();
+    _cartString = prefs.get('cartInfo');
+    List<Map> tempList = (json.decode(_cartString) as List ).cast();
     int tempIndex = 0;
     int deleteIndex = 0;
     //根据传入的goodsid去匹配
@@ -116,8 +124,8 @@ class CartProvide with ChangeNotifier{
     //删除对应的购物车数据
     tempList.removeAt(deleteIndex);
     //重新初始化购物车数据
-    cartString = json.encode(tempList).toString();
-    prefs.setString('cartInfo', cartString);
+    _cartString = json.encode(tempList).toString();
+    prefs.setString('cartInfo', _cartString);
     //刷新
     await getCartInfo();
   }
@@ -125,8 +133,8 @@ class CartProvide with ChangeNotifier{
   //购物车页面点击复选框时改变购物车信息和状态
   changeCheckState(CartInfoModel cartInfoModel) async{
     SharedPreferences prefs = await  SharedPreferences.getInstance();
-    cartString = prefs.get('cartInfo');
-    List<Map> tempList = (json.decode(cartString) as List ).cast();
+    _cartString = prefs.get('cartInfo');
+    List<Map> tempList = (json.decode(_cartString) as List ).cast();
     //临时的索引
     int tempIndex = 0;
     //待更换的索引
@@ -141,8 +149,8 @@ class CartProvide with ChangeNotifier{
     //改变选定的数据
     tempList[changeIndex] = cartInfoModel.toJson();
     //重新初始化购物车数据
-    cartString = json.encode(tempList).toString();
-    prefs.setString('cartInfo', cartString);
+    _cartString = json.encode(tempList).toString();
+    prefs.setString('cartInfo', _cartString);
     //刷新
     await getCartInfo();
 
@@ -152,8 +160,8 @@ class CartProvide with ChangeNotifier{
   changeAllCheckButtonState(bool isCheck)async{
     //1 获取所有的数据
     SharedPreferences prefs = await  SharedPreferences.getInstance();
-    cartString = prefs.get('cartInfo');
-    List<Map> tempList = (json.decode(cartString) as List ).cast();
+    _cartString = prefs.get('cartInfo');
+    List<Map> tempList = (json.decode(_cartString) as List ).cast();
     //2将所有的数据的ischeck全部置为前台选择的值
     List<Map> newList = [];
     for(var item in tempList){
@@ -162,16 +170,16 @@ class CartProvide with ChangeNotifier{
       newList.add(newItem);
     }
     //组合新列表到页面展示
-    cartString = json.encode(newList).toString();
-    prefs.setString('cartInfo', cartString);
+    _cartString = json.encode(newList).toString();
+    prefs.setString('cartInfo', _cartString);
     await getCartInfo();
   }
 
   //点击加减进行数据更新操作
   changeProductNum(int type,var cartItem)async{
     SharedPreferences prefs = await  SharedPreferences.getInstance();
-    cartString = prefs.get('cartInfo');
-    List<Map> tempList = (json.decode(cartString) as List ).cast();
+    _cartString = prefs.get('cartInfo');
+    List<Map> tempList = (json.decode(_cartString) as List ).cast();
     int currentIndex = 0;
     int tempIndex = 0;
     tempList.forEach((item){
@@ -193,8 +201,8 @@ class CartProvide with ChangeNotifier{
     //改变选定的数据
     tempList[currentIndex] = cartItem.toJson();
     //重新初始化购物车数据
-    cartString = json.encode(tempList).toString();
-    prefs.setString('cartInfo', cartString);
+    _cartString = json.encode(tempList).toString();
+    prefs.setString('cartInfo', _cartString);
     //刷新
     await getCartInfo();
   }

@@ -3,7 +3,8 @@ import 'package:flutter_app/com/tiand/config/service_url.dart';
 import 'package:flutter_app/com/tiand/model/cart_info_model.dart';
 import 'package:flutter_app/com/tiand/provide/cart_provide.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provide/provide.dart';
+import 'package:provider/provider.dart';
+//import 'package:provide/provide.dart';
 
 import 'cart_count.dart';
 
@@ -47,7 +48,7 @@ class CartItem extends StatelessWidget {
         onChanged: (bool val){
           item.isCheck = val;//自动
           //使用provide自动改变状态
-          Provide.value<CartProvide>(context).changeCheckState(item);
+          Provider.of<CartProvide>(context,listen: false).changeCheckState(item);
         },
       ),
     );
@@ -98,7 +99,7 @@ class CartItem extends StatelessWidget {
             alignment: Alignment.centerRight,
             child: InkWell(
               onTap: (){
-                Provide.value<CartProvide>(context).deleteOneGoods(item.goodsId);
+                Provider.of<CartProvide>(context,listen: false).deleteOneGoods(item.goodsId);
               },
               child: Icon(
                 Icons.delete_forever,

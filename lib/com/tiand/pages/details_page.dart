@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provide/provide.dart';
+import 'package:provider/provider.dart';
+//import 'package:provide/provide.dart';
 import '../provide/goods_detail_provide.dart';
 import 'details_page/detail_price.dart';
 import 'details_page/details_bootom.dart';
@@ -15,7 +16,7 @@ class DetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _getDetailinfo(context);
+//    _getDetailinfo(context);
     //获取数据 从provide中
     return Scaffold(
       appBar: AppBar(
@@ -78,7 +79,8 @@ class DetailsPage extends StatelessWidget {
       goodsId = 'ed675dda49e0445fa769f3d8020ab5e9';
     }
 
-    await Provide.value<GoodDetailProvide>(context).getGoodsDetail(goodsId);
+//    await Provide.value<GoodDetailProvide>(context).getGoodsDetail(goodsId);
+    await Provider.of<GoodDetailProvide>(context,listen: false).getGoodsDetail(goodsId);
     print('加载商品详情provide完毕');
     return '完成加载';
   }

@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart'; //ios 风格
 import 'package:flutter/material.dart';  //google 风格
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import './pageRely/page_list.dart';
-import 'package:provide/provide.dart';
+//import 'package:provide/provide.dart';
 import '../provide/current_index_provide.dart';
 
 class IndexPage extends StatelessWidget {
@@ -11,9 +12,9 @@ class IndexPage extends StatelessWidget {
   Widget build(BuildContext context) {
     //初始化设计尺寸
     ScreenUtil.init(context, width: 768, height: 1184);
-    return Provide<CurrentIndexProvide>(
-        builder: (context, child, val) {
-          int currentIndex = Provide.value<CurrentIndexProvide>(context).currentIndex;
+    return Consumer<CurrentIndexProvide>(
+        builder: (context, provide, _) {
+          int currentIndex = Provider.of<CurrentIndexProvide>(context,listen: false).currentIndex;
           return Scaffold(
             backgroundColor: Color.fromRGBO(244, 245, 245, 1.0),
             //展现的哪个页面
@@ -33,7 +34,8 @@ class IndexPage extends StatelessWidget {
               items: bottomTabList,
               //点击事件
               onTap: (index) {
-                Provide.value<CurrentIndexProvide>(context).changeIndex(index);
+//                provide.changeIndex(index);
+                Provider.of<CurrentIndexProvide>(context,listen: false).changeIndex(index);
               },
             ),
           );

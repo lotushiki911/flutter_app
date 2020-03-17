@@ -6,19 +6,23 @@ import 'dart:convert';
 //将业务逻辑放入到provide中 与UI界面分离
 
 class GoodDetailProvide with ChangeNotifier{
-  DetailsModel goodDetails ;
+  DetailsModel _goodDetails ;
+  DetailsModel get goodDetails => _goodDetails;
 
-  bool isLeft = true;
-  bool isRight = false;
+  bool _isLeft = true;
+  bool _isRight = false;
+
+  bool get isLeft => _isLeft;
+  bool get isRight => _isRight;
 
   //tabbar 切换方法
   changeLeftOrRight(String changeState){
     if(changeState == 'left'){
-      isLeft = true;
-      isRight = false;
+      _isLeft = true;
+      _isRight = false;
     }else{
-      isLeft = false;
-      isRight = true;
+      _isLeft = false;
+      _isRight = true;
     }
     notifyListeners();
   }
@@ -29,8 +33,8 @@ class GoodDetailProvide with ChangeNotifier{
     await requestForm('getGoodsDetailInfo',formData: formData).then((val){
       var responseData = json.decode(val.toString());
 //      print(responseData);
-      goodDetails = DetailsModel.fromJson(responseData);
-      print('商品名称是${goodDetails.detailData.detailInfo.goodsName}');
+      _goodDetails = DetailsModel.fromJson(responseData);
+      print('商品名称是${_goodDetails.detailData.detailInfo.goodsName}');
       //数据获取完了通知
       notifyListeners();
     });

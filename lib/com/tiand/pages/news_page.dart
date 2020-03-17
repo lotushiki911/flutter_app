@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jpush_flutter/jpush_flutter.dart';
-import 'package:provide/provide.dart';
+//import 'package:provide/provide.dart';
 import '../service/service_method.dart';
 import '../provide/counter.dart';
 //import 'package:amap_base/amap_base.dart';
@@ -235,33 +235,33 @@ class _NewsPageState extends State<NewsPage> {
 //  }
 //}
 
-class Number extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        child: Provide<Counter>(
-          builder: (context,child,counter){
-            return Text(
-                '${counter.value}'
-            );
-          },
-        )
-    );
-  }
-}
-
-
-class ClickBottom extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: RaisedButton(
-        onPressed: (){
-          Provide.value<Counter>(context).increment();
-        },
-        child: Text('点击增加'),
-      ),
-    );
-  }
-}
+//class Number extends StatelessWidget {
+//  @override
+//  Widget build(BuildContext context) {
+//    return Container(
+//        child: Provide<Counter>(
+//          builder: (context,child,counter){
+//            return Text(
+//                '${counter.value}'
+//            );
+//          },
+//        )
+//    );
+//  }
+//}
+//
+//
+//class ClickBottom extends StatelessWidget {
+//  @override
+//  Widget build(BuildContext context) {
+//    return Container(
+//      child: RaisedButton(
+//        onPressed: (){
+//          Provide.value<Counter>(context).increment();
+//        },
+//        child: Text('点击增加'),
+//      ),
+//    );
+//  }
+//}
 

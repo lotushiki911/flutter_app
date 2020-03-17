@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/com/tiand/model/cart_info_model.dart';
 import 'package:flutter_app/com/tiand/provide/cart_provide.dart';
-import 'package:provide/provide.dart';
+import 'package:provider/provider.dart';
+//import 'package:provide/provide.dart';
 import 'carts_page/cart_bottom.dart';
 import 'carts_page/cart_item.dart';
 
 class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(title: Text('购物车'),),
       body: FutureBuilder(
         future: _getCartInfo(context),
         builder: (context,snapshot){
+          print('保持状态??');
           if(snapshot.hasData){
-            List<CartInfoModel> cartList = Provide.value<CartProvide>(context).cartList;
+            List<CartInfoModel> cartList = Provider.of<CartProvide>(context,listen: false).cartList;
             return Stack(
               children: <Widget>[
-                Provide<CartProvide>(
-                  builder: (context,child,childCarts){
-                    cartList = Provide.value<CartProvide>(context).cartList;
+                Consumer<CartProvide>(
+                  builder: (context,childCarts,_){
+                    cartList = Provider.of<CartProvide>(context,listen: false).cartList;
                     return ListView.builder(
                       itemCount: cartList.length,
                       itemBuilder: (context, index) {
@@ -48,7 +49,7 @@ class CartPage extends StatelessWidget {
 
   //provide必须要上下文才能使用
   Future<String> _getCartInfo(BuildContext context) async{
-    await Provide.value<CartProvide>(context).getCartInfo();
+    await Provider.of<CartProvide>(context,listen: false).getCartInfo();
     return 'end';
   }
 }

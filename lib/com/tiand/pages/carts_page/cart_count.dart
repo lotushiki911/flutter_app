@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/com/tiand/provide/cart_provide.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provide/provide.dart';
+import 'package:provider/provider.dart';
+//import 'package:provide/provide.dart';
 
 //数量控制UI
 class CartCount extends StatelessWidget {
@@ -40,7 +41,7 @@ class CartCount extends StatelessWidget {
   Widget _leftBottom(context){
     return InkWell(
       onTap: (){
-        Provide.value<CartProvide>(context).changeProductNum(1, cartItem);
+        Provider.of<CartProvide>(context,listen: false).changeProductNum(1, cartItem);
       },
       child: Container(
         width: ScreenUtil().setWidth(40),
@@ -65,7 +66,7 @@ class CartCount extends StatelessWidget {
   Widget _rightBottom(context){
     return InkWell(
       onTap: (){
-        Provide.value<CartProvide>(context).changeProductNum(2, cartItem);
+        Provider.of<CartProvide>(context,listen: false).changeProductNum(2, cartItem);
       },
       child: Container(
         width: ScreenUtil().setWidth(40),
