@@ -11,6 +11,7 @@ import 'com/tiand/provide/goods_detail_provide.dart';
 import 'package:fluro/fluro.dart';
 import './com/tiand/routers/routers.dart';
 import './com/tiand/routers/routers_application.dart';
+import 'com/tiand/provide/home_info_provide.dart';
 
 void main() => runApp(
   //provide4.0注册
@@ -23,6 +24,7 @@ void main() => runApp(
       ChangeNotifierProvider.value(value: ChildCategoryProvide()),
       ChangeNotifierProvider.value(value: CategoryGoodsProvide()),
       ChangeNotifierProvider.value(value: CategoryProvide()),
+      ChangeNotifierProvider.value(value: HomeInfoProvide()),
     ],
     child: MyApp(),
   )

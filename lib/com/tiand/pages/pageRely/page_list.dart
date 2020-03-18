@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_app/com/tiand/config/service_url.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 //引入底部导航栏的分类页面
-import '../home_page.dart';
+import '../home_base_page.dart';
 import '../member_page.dart';
 import '../cart_page.dart';
 import '../category_page_base.dart';
